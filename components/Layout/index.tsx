@@ -1,22 +1,30 @@
-import { ReactElement } from 'react'
+import { ReactNode } from 'react'
 
+import { Flex, Box } from '@chakra-ui/react'
 import Navbar from 'components/Navbar'
-import { Container, MainContent } from './styled'
 
 interface LayoutProps {
-  children: ReactElement
-  className?: string
+  children: ReactNode
 }
 
-const Layout = ({ children, className }: LayoutProps): JSX.Element => {
+const Layout = ({ children }: LayoutProps): JSX.Element => {
   return (
-    <Container className={className}>
+    <Flex
+      direction='column'
+      bg='black'
+      minH='100vh'
+    >
       <Navbar />
 
-      <MainContent>
+      <Box
+        as='main'
+        mt='navbarHeight'
+        p='8'
+        flex='1'
+      >
         {children}
-      </MainContent>
-    </Container>
+      </Box>
+    </Flex>
   )
 }
 

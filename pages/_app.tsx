@@ -19,7 +19,7 @@ export const firaSans = Fira_Sans({
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <ChakraProvider theme={extendTheme(theme)}>
-      <Layout className={`${firaSans.className} ${robotoSlab.className}`}>
+      <Layout>
         <Component {...pageProps} />
       </Layout>
     </ChakraProvider>
