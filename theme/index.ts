@@ -2,17 +2,11 @@
 
 import { robotoSlab, firaSans } from 'pages/_app'
 
-import Heading from './heading'
-import Text from './text'
+import components from './components'
 
 const colors = {
-  primary: '#FFD403',
-  secondary: '#707070',
   black: '#222222',
   white: '#EEEEEE',
-  whiteHover: '#BBBBBB',
-  success: '#0af521',
-  error: '#ff000c',
 }
 
 // Global styles from chakra-ui
@@ -22,13 +16,11 @@ const styles = {
       padding: 0,
       margin: 0,
       boxSizing: 'border-box',
-      color: colors.white,
+      color: 'white',
     },
-    'h1, h2, h3, h4, h5, h6': {
-      fontWeight: 800,
-    },
-    a: {
+    'a, button': {
       fontFamily: firaSans.style.fontFamily,
+      letterSpacing: '1.3px',
     },
   },
 }
@@ -36,11 +28,6 @@ const styles = {
 const fonts = {
   heading: firaSans.style.fontFamily,
   body: robotoSlab.style.fontFamily,
-}
-
-const components = {
-  Heading,
-  Text,
 }
 
 const navbarHeight = '5rem'

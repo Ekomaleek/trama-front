@@ -11,7 +11,7 @@ const NavbarLink = chakra<typeof NextLink, NextLinkProps>(NextLink, {
     transitionProperty: 'color',
     transitionDuration: 'normal',
     _hover: {
-      color: 'primary',
+      color: 'orange.500',
     },
   },
 })

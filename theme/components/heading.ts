@@ -1,16 +1,17 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
 
-const styles = defineStyle({
+const defaultStyle = defineStyle({
   fontWeight: '800',
   letterSpacing: '3px',
+  color: 'white',
 })
 
 const Heading = defineStyleConfig({
-  variants: {
-    default: styles,
-  },
   defaultProps: {
     variant: 'default',
+  },
+  variants: {
+    default: defaultStyle,
   },
 })
 

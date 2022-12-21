@@ -12,9 +12,10 @@ const Navbar = (): JSX.Element => {
       h='navbarHeight'
       w='100%'
       p='8'
-      bg='rgba(0, 0, 0, 0.8)'
+      bg='blackAlpha.900'
       borderBottom='1px solid'
-      borderColor='primary'
+      borderColor='orange.500'
+      zIndex='sticky'
     >
       {navLinks.map(navLink =>
         <NavbarLink
