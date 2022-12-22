@@ -25,5 +25,6 @@ rules: {
   '@typescript-eslint/comma-dangle': 'off',
   '@typescript-eslint/no-unused-vars': 'warn',
   '@typescript-eslint/triple-slash-reference': 'off',
+  '@typescript-eslint/no-misused-promises': [2, { 'checksVoidReturn': { 'attributes': false } }],
   react/jsx-closing-bracket-location: [1, 'line-aligned']
 }
