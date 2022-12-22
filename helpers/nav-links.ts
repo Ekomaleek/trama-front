@@ -4,6 +4,11 @@ const navLinks = [
     name: 'Home',
     url: '/',
   },
+  {
+    id: 2,
+    name: 'Categorias',
+    url: '/categories',
+  },
 ]
 
 export default navLinks
