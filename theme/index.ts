@@ -18,8 +18,12 @@ const styles = {
       boxSizing: 'border-box',
       color: 'white',
     },
-    'a, button': {
+    'a, button, label': {
       fontFamily: firaSans.style.fontFamily,
+      letterSpacing: '1.3px',
+    },
+    'input, textarea': {
+      fontFamily: robotoSlab.style.fontFamily,
       letterSpacing: '1.3px',
     },
   },
