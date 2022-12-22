@@ -11,6 +11,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   return (
     <Flex
       direction='column'
+      alignItems='center'
       bg='black'
       minH='100vh'
     >
@@ -21,6 +22,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
         mt='navbarHeight'
         p='8'
         flex='1'
+        maxW='1200px'
       >
         {children}
       </Box>
