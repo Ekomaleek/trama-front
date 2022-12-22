@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { GetServerSideProps, NextPage } from 'next'
-import { Category } from 'types/Category'
+import { Category, CategoryForUserUpdate } from 'types/Category'
 
-import { editCategory, getCategoryById } from 'api/category'
+import { updateCategory, getCategoryById } from 'api/category'
 
 import {
   Container,
@@ -17,39 +19,36 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-interface EditCategoryProps {
+interface UpdateCategoryPageProps {
   category: Category
 }
 
-const EditCategoryPage: NextPage<EditCategoryProps> = ({ category }) => {
+const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => {
   const toast = useToast()
+  const router = useRouter()
+
+  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForUserUpdate>()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [name, setName] = useState<Category['name']>(category.name)
-  const [description, setDescription] = useState<Category['name']>(category.description)
 
-  const handleNameChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    setName(event.currentTarget.value)
-  }
-
-  const handleDescriptionChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    setDescription(event.currentTarget.value)
-  }
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
+  const onSubmit: SubmitHandler<CategoryForUserUpdate> = (data) => {
     setIsLoading(true)
 
-    editCategory({ id: category.id, name, description })
-      .then(category => toast({
-        title: `A categoria ${category.name} foi editada com sucesso.`,
-        status: 'success',
-      }))
-      .catch(err => toast({
-        title: 'Ocorreu um erro na edição da categoria.',
-        description: err.message,
-        status: 'error',
-      }))
+    updateCategory({ id: category.id, ...data })
+      .then(category => {
+        toast({
+          title: `A categoria ${category.name} foi editada com sucesso.`,
+          status: 'success',
+        })
+        void router.push('/categories')
+      })
+      .catch(err => {
+        toast({
+          title: 'Ocorreu um erro na edição da categoria.',
+          description: err.message,
+          status: 'error',
+        })
+      })
       .finally(() => {
         setIsLoading(false)
       })
@@ -68,15 +67,16 @@ const EditCategoryPage: NextPage<EditCategoryProps> = ({ category }) => {
           Editar categoria
         </Heading>
 
-        <form onSubmit={handleSubmit}>
-          <FormControl isRequired>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isRequired isInvalid={errors.name !== undefined}>
             <FormLabel>Nome</FormLabel>
             <Input
               type='text'
               placeholder='Nome da categoria'
-              value={name}
-              onChange={handleNameChange}
+              {...register('name', { required: 'O campo nome é obrigatório.' })}
+              defaultValue={category.name}
             />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl pt='4'>
@@ -84,8 +84,8 @@ const EditCategoryPage: NextPage<EditCategoryProps> = ({ category }) => {
             <Input
               type='text'
               placeholder='Descrição da categoria'
-              value={description}
-              onChange={handleDescriptionChange}
+              {...register('description')}
+              defaultValue={category.description}
             />
           </FormControl>
 
@@ -120,4 +120,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default EditCategoryPage
+export default UpdateCategoryPage

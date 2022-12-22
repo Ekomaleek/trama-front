@@ -1,14 +1,14 @@
 import axios from 'axios'
-import { Category } from 'types/Category'
+
+import {
+  Category,
+  CategoryForCreation,
+  CategoryForUpdate,
+  CategoryForDeletion,
+} from 'types/Category'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
-// Types
-type CategoryForCreation = Pick<Category, 'name' | 'description'>
-type CategoryForEdit = Pick<Category, 'id'> & Partial<CategoryForCreation>
-type CategoryForDeletion = Pick<Category, 'id'>
-
-// Methods
 const getCategories = async (): Promise<Category[]> => {
   const response = await axios.get(`${BASE_URL}/category`)
   const data = response.data
@@ -33,7 +33,7 @@ const createCategory = async ({ name, description }: CategoryForCreation): Promi
   return data
 }
 
-const editCategory = async ({ id, name, description }: CategoryForEdit): Promise<Category> => {
+const updateCategory = async ({ id, name, description }: CategoryForUpdate): Promise<Category> => {
   const response = await axios.patch(`${BASE_URL}/category/update/${id}`, {
     name,
     description,
@@ -54,6 +54,6 @@ export {
   getCategories,
   getCategoryById,
   createCategory,
-  editCategory,
+  updateCategory,
   removeCategory,
 }
