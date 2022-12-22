@@ -93,7 +93,7 @@ const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Ele
           />
 
           <MenuList>
-            <NextLink href={`categories/edit/${category.id}`}>
+            <NextLink href={`categories/update/${category.id}`}>
               <MenuItem icon={<EditIcon />}>
                 Editar
               </MenuItem>
