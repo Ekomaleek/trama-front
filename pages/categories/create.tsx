@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { Category } from 'types/Category'
+import { CategoryForCreation } from 'types/Category'
 
 import { createCategory } from 'api/category'
 import { useRouter } from 'next/router'
@@ -22,23 +23,14 @@ const CategoriesPage: NextPage = () => {
   const toast = useToast()
   const router = useRouter()
 
+  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForCreation>()
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [name, setName] = useState<Category['name']>('')
-  const [description, setDescription] = useState<Category['description']>('')
 
-  const handleNameChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    setName(event.currentTarget.value)
-  }
-
-  const handleDescriptionChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    setDescription(event.currentTarget.value)
-  }
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
+  const onSubmit: SubmitHandler<CategoryForCreation> = (data) => {
     setIsLoading(true)
 
-    createCategory({ name, description })
+    createCategory(data)
       .then(category => {
         toast({
           title: `A categoria ${category.name} foi criada com sucesso.`,
@@ -71,15 +63,15 @@ const CategoriesPage: NextPage = () => {
           Criar categoria
         </Heading>
 
-        <form onSubmit={handleSubmit}>
-          <FormControl isRequired>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isRequired isInvalid={errors.name !== undefined}>
             <FormLabel>Nome</FormLabel>
             <Input
               type='text'
               placeholder='Nome da categoria'
-              value={name}
-              onChange={handleNameChange}
+              {...register('name', { required: 'O campo nome é obrigatório.' })}
             />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl pt='4'>
@@ -87,8 +79,7 @@ const CategoriesPage: NextPage = () => {
             <Input
               type='text'
               placeholder='Descrição da categoria'
-              value={description}
-              onChange={handleDescriptionChange}
+              {...register('description')}
             />
           </FormControl>
 
