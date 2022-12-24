@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { GetServerSideProps, NextPage } from 'next'
-import { Category, CategoryForUserUpdate } from 'types/Category'
+import {
+  Category,
+  CategoryForUpdate,
+  CategoryForUserUpdate,
+} from 'types/Category'
 
 import { updateCategory, getCategoryById } from 'api/category'
+import { useApi } from 'hooks/use-api'
 
 import {
   Container,
@@ -16,7 +20,6 @@ import {
   FormErrorMessage,
   Input,
   Button,
-  useToast,
 } from '@chakra-ui/react'
 
 interface UpdateCategoryPageProps {
@@ -24,34 +27,20 @@ interface UpdateCategoryPageProps {
 }
 
 const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => {
-  const toast = useToast()
-  const router = useRouter()
+  const { isLoading, makeRequest } = useApi<Category, CategoryForUpdate>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CategoryForUserUpdate>()
 
-  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForUserUpdate>()
-
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const onSubmit: SubmitHandler<CategoryForUserUpdate> = (data) => {
-    setIsLoading(true)
-
-    updateCategory({ id: category.id, ...data })
-      .then(category => {
-        toast({
-          title: `A categoria ${category.name} foi editada com sucesso.`,
-          status: 'success',
-        })
-        void router.push('/categories')
-      })
-      .catch(err => {
-        toast({
-          title: 'Ocorreu um erro na edição da categoria.',
-          description: err.message,
-          status: 'error',
-        })
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+  const onSubmit: SubmitHandler<CategoryForUserUpdate> = async (data) => {
+    await makeRequest({
+      apiMethod: updateCategory,
+      apiMethodArgs: { id: category.id, ...data },
+      withRedirect: '/categories',
+      successMessage: `A categoria ${category.name} foi editada com sucesso.`,
+    })
   }
 
   return (
@@ -105,18 +94,18 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params?.id ?? null
-  let category: Category
+  let categories: Category[]
 
   if (id === null || Array.isArray(id)) return { notFound: true }
 
   try {
-    category = await getCategoryById(parseInt(id))
+    categories = await getCategoryById(parseInt(id))
   } catch (err) {
     return { notFound: true }
   }
 
   return {
-    props: { category },
+    props: { category: categories[0] },
   }
 }
 

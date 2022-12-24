@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { CategoryForCreation } from 'types/Category'
+import { Category, CategoryForCreation } from 'types/Category'
 
 import { createCategory } from 'api/category'
-import { useRouter } from 'next/router'
+import { useApi } from 'hooks/use-api'
 
 import {
   Container,
@@ -16,38 +16,19 @@ import {
   FormErrorMessage,
   Input,
   Button,
-  useToast,
 } from '@chakra-ui/react'
 
 const CategoriesPage: NextPage = () => {
-  const toast = useToast()
-  const router = useRouter()
-
+  const { isLoading, makeRequest } = useApi<Category, CategoryForCreation>()
   const { register, handleSubmit, formState: { errors } } = useForm<CategoryForCreation>()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const onSubmit: SubmitHandler<CategoryForCreation> = (data) => {
-    setIsLoading(true)
-
-    createCategory(data)
-      .then(category => {
-        toast({
-          title: `A categoria ${category.name} foi criada com sucesso.`,
-          status: 'success',
-        })
-        void router.push('/categories')
-      })
-      .catch(err => {
-        toast({
-          title: 'Ocorreu um erro na criação da categoria.',
-          description: err.message,
-          status: 'error',
-        })
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+  const onSubmit: SubmitHandler<CategoryForCreation> = async (data) => {
+    await makeRequest({
+      apiMethod: createCategory,
+      apiMethodArgs: data,
+      successMessage: `A categoria ${data.name} foi criada com sucesso.`,
+      withRedirect: '/categories',
+    })
   }
 
   return (
