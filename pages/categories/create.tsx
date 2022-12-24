@@ -39,7 +39,7 @@ const CategoriesPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW='800px'>
+      <Container>
         <Heading size='2xl' textAlign='center' pb='8'>
           Criar categoria
         </Heading>

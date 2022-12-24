@@ -51,7 +51,7 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW='800px'>
+      <Container>
         <Heading size='2xl' textAlign='center' pb='8'>
           Editar categoria
         </Heading>
