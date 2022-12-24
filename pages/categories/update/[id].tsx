@@ -100,6 +100,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     categories = await getCategoryById(parseInt(id))
+    if (categories.length === 0) return { notFound: true }
   } catch (err) {
     return { notFound: true }
   }

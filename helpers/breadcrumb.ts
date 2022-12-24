@@ -44,6 +44,8 @@ const resolveItemUrl = (pathItems: string[], indexToEnd: number): string => {
 }
 
 const getBreadcrumbItems = (pathname: string): BreadcrumbItem[] => {
+  if (pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
+
   const pathItems = pathname === '/'
     ? ['']
     : pathname.split('/')
