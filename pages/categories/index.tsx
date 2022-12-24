@@ -15,8 +15,7 @@ import {
   Text,
   Box,
   Button,
-  Wrap,
-  WrapItem,
+  SimpleGrid,
 } from '@chakra-ui/react'
 
 interface CategoriesPageProps {
@@ -77,13 +76,19 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
           </Text>
         }
 
-        <Wrap justify='center' spacing='4'>
+        <SimpleGrid
+          gridTemplateColumns='repeat(auto-fit, 300px)'
+          gap='4'
+          justifyContent='center'
+        >
           {categories.map((category) =>
-            <WrapItem key={category.id}>
-              <CategoryCard category={category} setShouldUpdate={setShouldUpdate} />
-            </WrapItem>
+            <CategoryCard
+              key={category.id}
+              category={category}
+              setShouldUpdate={setShouldUpdate}
+            />
           )}
-        </Wrap>
+        </SimpleGrid>
       </Container>
     </>
   )
