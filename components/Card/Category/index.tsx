@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import NextLink from 'next/link'
 
-import { Category } from 'types/Category'
+import { Category, CategoryForDeletion } from 'types/Category'
 
+import { useApi } from 'hooks/use-api'
 import { removeCategory } from 'api/category'
 
 import Dialog from 'components/Dialog'
@@ -20,7 +21,6 @@ import {
   MenuItem,
   Button,
   IconButton,
-  useToast,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -30,31 +30,17 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Element => {
-  const toast = useToast()
+  const { isLoading, makeRequest } = useApi<Category, CategoryForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const handleDelete = (): void => {
-    setIsLoading(true)
-
-    removeCategory({ id: category.id })
-      .then(category => {
-        toast({
-          title: `A categoria ${category.name} foi removida com sucesso.`,
-          status: 'success',
-        })
-        setShouldUpdate(true)
-      })
-      .catch(err => toast({
-        title: 'Ocorreu um erro ao remover a categoria.',
-        description: err.message,
-        status: 'error',
-      }))
-      .finally(() => {
-        setIsLoading(false)
-        onClose()
-      })
+  const handleDelete = async (): Promise<void> => {
+    await makeRequest({
+      apiMethod: removeCategory,
+      apiMethodArgs: { id: category.id },
+      successMessage: `A categoria ${category.name} foi removida com sucesso.`,
+      successCallback: () => setShouldUpdate(true),
+      finallyCallback: () => onClose(),
+    })
   }
 
   return (

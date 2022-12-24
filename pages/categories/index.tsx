@@ -21,9 +21,10 @@ import {
 
 interface CategoriesPageProps {
   categories: Category[]
+  error: string
 }
 
-const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories }) => {
+const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) => {
   const router = useRouter()
   const [shouldUpdate, setShouldUpdate] = useState<boolean>(false)
 
@@ -61,7 +62,16 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories }) => {
         </Box>
 
         {
+          error !== '' &&
+          <Text textAlign='center' fontSize='xl' fontWeight='bold' color='red.500'>
+            Ocorreu um erro ao buscar suas categorias:<br/>
+            {error}
+          </Text>
+        }
+
+        {
           categories.length === 0 &&
+          error === '' &&
           <Text textAlign='center' fontSize='xl' fontWeight='500'>
             Você ainda não tem nenhuma categoria cadastrada.
           </Text>
@@ -80,10 +90,15 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  let error = ''
   const categories = await getCategories()
+    .catch(err => {
+      error = err.message
+      return []
+    })
 
   return {
-    props: { categories },
+    props: { categories, error },
   }
 }
 
