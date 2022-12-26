@@ -23,8 +23,13 @@ const styles = {
     },
     'a, button, label': {
       fontFamily: firaSans.style.fontFamily,
+      fontWeight: 'bold !important',
     },
     'input, textarea': {
+      fontFamily: robotoSlab.style.fontFamily,
+    },
+    option: {
+      background: 'black !important',
       fontFamily: robotoSlab.style.fontFamily,
     },
   },

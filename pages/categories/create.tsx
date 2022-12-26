@@ -18,7 +18,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 
-const CategoriesPage: NextPage = () => {
+const CreateCategoryPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<Category, CategoryForCreation>()
   const { register, handleSubmit, formState: { errors } } = useForm<CategoryForCreation>()
 
@@ -78,4 +78,4 @@ const CategoriesPage: NextPage = () => {
   )
 }
 
-export default CategoriesPage
+export default CreateCategoryPage
