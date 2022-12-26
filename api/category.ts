@@ -9,6 +9,16 @@ import {
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
+const getCategoryById = async (id: Category['id']): Promise<Category> => {
+  const response = await axios
+    .get(`${BASE_URL}/category/${id}`)
+    .catch((err: Error) => {
+      throw new Error(`Erro ao buscar a categoria: ${err.message}`)
+    })
+
+  return response.data
+}
+
 const getCategories = async (): Promise<Category[]> => {
   const response = await axios
     .get(`${BASE_URL}/category`)
@@ -19,17 +29,7 @@ const getCategories = async (): Promise<Category[]> => {
   return response.data
 }
 
-const getCategoryById = async (id: Category['id']): Promise<Category[]> => {
-  const response = await axios
-    .get(`${BASE_URL}/category/${id}`)
-    .catch((err: Error) => {
-      throw new Error(`Erro ao buscar a categoria: ${err.message}`)
-    })
-
-  return response.data
-}
-
-const createCategory = async ({ name, description }: CategoryForCreation): Promise<Category[]> => {
+const createCategory = async ({ name, description }: CategoryForCreation): Promise<Category> => {
   const response = await axios
     .post(`${BASE_URL}/category/create`, {
       name,
@@ -42,7 +42,7 @@ const createCategory = async ({ name, description }: CategoryForCreation): Promi
   return response.data
 }
 
-const updateCategory = async ({ id, name, description }: CategoryForUpdate): Promise<Category[]> => {
+const updateCategory = async ({ id, name, description }: CategoryForUpdate): Promise<Category> => {
   const response = await axios
     .patch(`${BASE_URL}/category/update/${id}`, {
       name,
@@ -55,7 +55,7 @@ const updateCategory = async ({ id, name, description }: CategoryForUpdate): Pro
   return response.data
 }
 
-const removeCategory = async ({ id }: CategoryForDeletion): Promise<Category[]> => {
+const removeCategory = async ({ id }: CategoryForDeletion): Promise<Category> => {
   const response = await axios
     .delete(`${BASE_URL}/category/remove/${id}`)
     .catch((err: Error) => {

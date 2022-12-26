@@ -94,19 +94,18 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params?.id ?? null
-  let categories: Category[]
+  let category: Category
 
   if (id === null || Array.isArray(id)) return { notFound: true }
 
   try {
-    categories = await getCategoryById(parseInt(id))
-    if (categories.length === 0) return { notFound: true }
+    category = await getCategoryById(parseInt(id))
   } catch (err) {
     return { notFound: true }
   }
 
   return {
-    props: { category: categories[0] },
+    props: { category },
   }
 }
 

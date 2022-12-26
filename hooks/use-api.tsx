@@ -3,27 +3,27 @@ import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 interface UseApi<Resource, Data> {
-  data: Resource[]
+  data: Resource | Resource[]
   error: string
   isLoading: boolean
   makeRequest: (options: {
-    apiMethod: (data: Data) => Promise<Resource[]>
+    apiMethod: (data: Data) => Promise<Resource | Resource[]>
     apiMethodArgs: Data
     successMessage: string
     withRedirect?: string
     successCallback?: () => any
     errorCallback?: () => any
     finallyCallback?: () => any
-  }) => Promise<Resource[]>
+  }) => Promise<void>
 }
 
 const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
   const toast = useToast()
   const router = useRouter()
 
-  const [data, setData] = useState<Resource[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string>('')
+  const [data, setData] = useState<UseApi<Resource, Data>['data']>([])
+  const [isLoading, setIsLoading] = useState<UseApi<Resource, Data>['isLoading']>(false)
+  const [error, setError] = useState<UseApi<Resource, Data>['error']>('')
 
   const makeRequest: UseApi<Resource, Data>['makeRequest'] = async ({
     apiMethod,
@@ -36,7 +36,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
   }) => {
     setIsLoading(true)
 
-    const response = apiMethod(apiMethodArgs)
+    apiMethod(apiMethodArgs)
       .then(res => {
         toast({
           title: 'Tudo certo!',
@@ -47,8 +47,6 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
 
         withRedirect !== undefined && router.push(withRedirect)
         successCallback?.()
-
-        return res
       })
       .catch((err: Error) => {
         toast({
@@ -64,8 +62,6 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
         setIsLoading(false)
         finallyCallback?.()
       })
-
-    return await response as Resource[]
   }
 
   return { data, isLoading, error, makeRequest }
