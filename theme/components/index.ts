@@ -4,6 +4,7 @@ import Card from './card'
 import Menu from './menu'
 import Button from './button'
 import Input from './input'
+import Select from './select'
 
 const components = {
   Heading,
@@ -12,6 +13,7 @@ const components = {
   Menu,
   Button,
   Input,
+  Select,
 }
 
 export default components
