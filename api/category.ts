@@ -7,62 +7,53 @@ import {
   CategoryForDeletion,
 } from 'types/Category'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+import { getErrorMessage } from 'helpers'
+
+import { BASE_URL } from './'
 
 const getCategoryById = async (id: Category['id']): Promise<Category> => {
-  const response = await axios
-    .get(`${BASE_URL}/category/${id}`)
-    .catch((err: Error) => {
-      throw new Error(`Erro ao buscar a categoria: ${err.message}`)
-    })
-
-  return response.data
+  try {
+    const response = await axios.get(`${BASE_URL}/category/${id}`)
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao buscar a categoria: ${getErrorMessage(err)}`)
+  }
 }
 
 const getCategories = async (): Promise<Category[]> => {
-  const response = await axios
-    .get(`${BASE_URL}/category`)
-    .catch((err: Error) => {
-      throw new Error(`Erro ao buscar categorias: ${err.message}`)
-    })
-
-  return response.data
+  try {
+    const response = await axios.get(`${BASE_URL}/category`)
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao buscar categorias: ${getErrorMessage(err)}`)
+  }
 }
 
 const createCategory = async ({ name, description }: CategoryForCreation): Promise<Category> => {
-  const response = await axios
-    .post(`${BASE_URL}/category/create`, {
-      name,
-      description,
-    })
-    .catch((err: Error) => {
-      throw new Error(`Erro ao criar a categoria: ${err.message}`)
-    })
-
-  return response.data
+  try {
+    const response = await axios.post(`${BASE_URL}/category/create`, { name, description })
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao criar a categoria: ${getErrorMessage(err)}`)
+  }
 }
 
 const updateCategory = async ({ id, name, description }: CategoryForUpdate): Promise<Category> => {
-  const response = await axios
-    .patch(`${BASE_URL}/category/update/${id}`, {
-      name,
-      description,
-    })
-    .catch((err: Error) => {
-      throw new Error(`Erro ao atualizar a categoria: ${err.message}`)
-    })
-
-  return response.data
+  try {
+    const response = await axios.patch(`${BASE_URL}/category/update/${id}`, { name, description })
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao atualizar a categoria: ${getErrorMessage(err)}`)
+  }
 }
 
 const removeCategory = async ({ id }: CategoryForDeletion): Promise<Category> => {
-  const response = await axios
-    .delete(`${BASE_URL}/category/remove/${id}`)
-    .catch((err: Error) => {
-      throw new Error(`Erro ao remover a categoria: ${err.message}`)
-    })
-
-  return response.data
+  try {
+    const response = await axios.delete(`${BASE_URL}/category/remove/${id}`)
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao remover a categoria: ${getErrorMessage(err)}`)
+  }
 }
 
 export {
