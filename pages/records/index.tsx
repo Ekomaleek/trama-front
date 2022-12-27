@@ -6,6 +6,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Record } from 'types/Record'
 
 import { getRecords } from 'api/record'
+import { getErrorMessage } from 'helpers'
 
 import NextLink from 'next/link'
 import RecordCard from 'components/Card/Record'
@@ -95,15 +96,21 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let error = ''
-  const records = await getRecords()
-    .catch(err => {
-      error = err.message
-      return []
-    })
-
-  return {
-    props: { records, error },
+  try {
+    const records = await getRecords()
+    return {
+      props: {
+        records,
+        error: '',
+      },
+    }
+  } catch (err) {
+    return {
+      props: {
+        records: [],
+        error: getErrorMessage(err),
+      },
+    }
   }
 }
 
