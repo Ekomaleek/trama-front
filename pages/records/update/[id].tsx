@@ -33,10 +33,9 @@ interface UpdateRecordPageProps {
   categories: Category[]
   record: Record
   refs: Ref[]
-  error: string
 }
 
-const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record, refs, error }) => {
+const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record, refs }) => {
   const { isLoading, makeRequest } = useApi<Record, RecordForUpdateWithRefs>()
   const {
     register,
@@ -187,36 +186,23 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // Categories
-  let error = ''
-  const categories = await getCategories()
-    .catch(err => {
-      error = err.message
-      return []
-    })
-
-  // Record
-  const id = context.params?.id ?? null
-  let record: Record
-
-  if (id === null || Array.isArray(id)) return { notFound: true }
-
   try {
-    record = await getRecordById(parseInt(id))
+    const id = context.params?.id ?? null
+    if (id === null || Array.isArray(id)) throw new Error('404')
+
+    const record = await getRecordById(parseInt(id))
+    const categories = await getCategories()
+    const refs = await getRefsByRecordId(parseInt(id))
+
+    return {
+      props: {
+        categories,
+        record,
+        refs,
+      },
+    }
   } catch (err) {
     return { notFound: true }
-  }
-
-  // Refs
-  let refs: Ref[]
-  try {
-    refs = await getRefsByRecordId(parseInt(id))
-  } catch (err) {
-    return { notFound: true }
-  }
-
-  return {
-    props: { categories, record, refs, error },
   }
 }
 

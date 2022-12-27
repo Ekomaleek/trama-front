@@ -6,6 +6,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Category } from 'types/Category'
 
 import { getCategories } from 'api/category'
+import { getErrorMessage } from 'helpers'
 
 import NextLink from 'next/link'
 import CategoryCard from 'components/Card/Category'
@@ -95,15 +96,21 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let error = ''
-  const categories = await getCategories()
-    .catch(err => {
-      error = err.message
-      return []
-    })
-
-  return {
-    props: { categories, error },
+  try {
+    const categories = await getCategories()
+    return {
+      props: {
+        categories,
+        error: '',
+      },
+    }
+  } catch (err) {
+    return {
+      props: {
+        categories: [],
+        error: getErrorMessage(err),
+      },
+    }
   }
 }
 

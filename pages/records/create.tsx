@@ -9,6 +9,7 @@ import { Category } from 'types/Category'
 import { getCategories } from 'api/category'
 import { createRecordWithRefs } from 'api/record'
 import { useApi } from 'hooks/use-api'
+import { getErrorMessage } from 'helpers'
 
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
@@ -166,14 +167,22 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let error = ''
-  const categories = await getCategories()
-    .catch(err => {
-      error = err.message
-      return []
-    })
-
-  return { props: { categories, error } }
+  try {
+    const categories = await getCategories()
+    return {
+      props: {
+        categories,
+        error: '',
+      },
+    }
+  } catch (err) {
+    return {
+      props: {
+        categories: [],
+        error: getErrorMessage(err),
+      },
+    }
+  }
 }
 
 export default CreateRecordPage
