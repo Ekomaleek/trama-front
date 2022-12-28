@@ -12,7 +12,7 @@ import {
 
 const BreadcrumbComponent = (): JSX.Element => {
   const router = useRouter()
-  const breadcrumbItems = getBreadcrumbItems(router.pathname)
+  const breadcrumbItems = getBreadcrumbItems(router)
 
   return (
     <Flex
