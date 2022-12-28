@@ -26,7 +26,7 @@ import {
 
 type CategoryCardProps = {
   category: Category
-  setShouldUpdate: React.Dispatch<React.SetStateAction<boolean>>
+  setShouldUpdate?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Element => {
@@ -34,11 +34,15 @@ const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Ele
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
+    const successCallback = setShouldUpdate !== undefined
+      ? () => setShouldUpdate(true)
+      : () => null
+
     await makeRequest({
       apiMethod: removeCategory,
       apiMethodArgs: { id: category.id },
       successMessage: `A categoria ${category.name} foi removida com sucesso.`,
-      successCallback: () => setShouldUpdate(true),
+      successCallback,
       finallyCallback: () => onClose(),
     })
   }
@@ -67,9 +71,11 @@ const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Ele
       </CardBody>
 
       <CardFooter justifyContent='space-between'>
-        <Button>
-          Ver registros
-        </Button>
+        <NextLink href={`categories/${category.id}`}>
+          <Button>
+            Ver categoria
+          </Button>
+        </NextLink>
 
         <Menu>
           <MenuButton
