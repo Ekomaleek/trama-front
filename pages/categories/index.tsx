@@ -19,7 +19,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react'
 
-interface CategoriesPageProps {
+type CategoriesPageProps = {
   categories: Category[]
   error: string
 }

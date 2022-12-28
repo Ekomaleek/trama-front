@@ -26,7 +26,7 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 
-interface CreateRecordPageProps {
+type CreateRecordPageProps = {
   categories: Category[]
   error: string
 }

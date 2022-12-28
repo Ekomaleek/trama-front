@@ -19,7 +19,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react'
 
-interface RecordsPageProps {
+type RecordsPageProps = {
   records: Record[]
   error: string
 }

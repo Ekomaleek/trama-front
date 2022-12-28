@@ -22,7 +22,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 
-interface UpdateCategoryPageProps {
+type UpdateCategoryPageProps = {
   category: Category
 }
 

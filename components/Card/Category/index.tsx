@@ -24,7 +24,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-interface CategoryCardProps {
+type CategoryCardProps = {
   category: Category
   setShouldUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }

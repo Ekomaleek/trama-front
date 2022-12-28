@@ -30,7 +30,7 @@ import {
   Textarea,
 } from '@chakra-ui/react'
 
-interface UpdateRecordPageProps {
+type UpdateRecordPageProps = {
   categories: Category[]
   record: Record
   refs: Ref[]
