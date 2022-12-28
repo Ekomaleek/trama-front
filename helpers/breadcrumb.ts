@@ -1,3 +1,5 @@
+import { NextRouter } from 'next/router'
+
 interface BreadcrumbItem {
   id: number
   name: string
@@ -9,50 +11,48 @@ interface BreadcrumbDictionary {
 }
 
 const breadcrumbDictionary: BreadcrumbDictionary = {
-  '': 'Home',
-  categories: 'Categorias',
-  update: 'Editar categoria',
-  create: 'Criar categoria',
+  '/': 'Home',
+  '/categories': 'Categorias',
+  '/categories/create': 'Criar categoria',
+  '/categories/update': 'Editar categoria',
+  '/records': 'Registros',
+  '/records/create': 'Criar registro',
+  '/records/update': 'Editar registro',
 }
 
-const resolveItemName = (path: string): string => {
-  const pathKeyOnDict = Object.keys(breadcrumbDictionary).find(entry => entry === path)
-  const name = pathKeyOnDict !== undefined
-    ? breadcrumbDictionary[pathKeyOnDict]
+const resolveItemName = (url: string): string => {
+  const urlWithoutId = url.replace(/\/(\d+)/g, '')
+  const keyOnDict = Object.keys(breadcrumbDictionary).find(dictEntry => dictEntry === urlWithoutId)
+
+  const name = keyOnDict !== undefined
+    ? breadcrumbDictionary[keyOnDict]
     : 'Não encontrado'
 
   return name
 }
 
-const resolveItemUrl = (pathItems: string[], indexToEnd: number): string => {
-  let url: string = ''
-  let i: number = 0
+const resolveItemUrl = (pathItems: string[], index: number): string => {
+  if (index === 0) return '/'
 
   // Checks whether the next pathItem is a number (an id).
-  // If so, appends it to url
-  while (i <= indexToEnd) {
-    if (!isNaN(parseInt(pathItems[i + 1]))) {
-      url += pathItems[i] + '/' + pathItems[i + 1]
-    } else {
-      url += pathItems[i] + '/'
-    }
+  // If so, skip this item
+  const nextItem = pathItems[index + 1]
+  if (!isNaN(parseInt(nextItem))) return ''
 
-    i = i + 1
-  }
-
-  return url
+  const currentItems = pathItems.slice(0, index + 1)
+  return currentItems.join('/')
 }
 
-const getBreadcrumbItems = (pathname: string): BreadcrumbItem[] => {
-  if (pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
+const getBreadcrumbItems = (router: NextRouter): BreadcrumbItem[] => {
+  if (router.pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
 
-  const pathItems = pathname === '/'
+  const pathItems = router.asPath === '/'
     ? ['']
-    : pathname.split('/')
+    : router.asPath.split('/')
 
   const breadcrumbItems = pathItems.map((path, index) => {
-    const name = resolveItemName(path)
     const url = resolveItemUrl(pathItems, index)
+    const name = resolveItemName(url)
 
     return {
       id: index,
