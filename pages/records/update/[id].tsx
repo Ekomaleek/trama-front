@@ -58,6 +58,7 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
   })
 
   const onSubmit: SubmitHandler<RecordForUserUpdateWithRefs> = async (data) => {
+    const nonEmptyRefs = data.refs.filter(ref => ref.content)
     await makeRequest({
       apiMethod: updateRecordWithRefs,
       apiMethodArgs: {
@@ -65,7 +66,7 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
         name: data.name,
         description: data.description,
         category_id: data.category_id,
-        refs: data.refs,
+        refs: nonEmptyRefs,
         originalRefs: refs,
       },
       withRedirect: '/records',

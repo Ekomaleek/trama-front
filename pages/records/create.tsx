@@ -51,9 +51,10 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
   })
 
   const onSubmit: SubmitHandler<RecordForCreationWithRefs> = async (data) => {
+    const nonEmptyRefs = data.refs.filter(ref => ref.content)
     await makeRequest({
       apiMethod: createRecordWithRefs,
-      apiMethodArgs: data,
+      apiMethodArgs: { ...data, refs: nonEmptyRefs },
       successMessage: `O registro ${data.name} foi criado com sucesso.`,
       withRedirect: '/records',
     })
