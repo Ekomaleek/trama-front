@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+import { Record } from 'types/Record'
 import {
   Category,
   CategoryForCreation,
@@ -56,10 +57,20 @@ const removeCategory = async ({ id }: CategoryForDeletion): Promise<Category> =>
   }
 }
 
+const getRecordsByCategoryId = async (id: Category['id']): Promise<Record[]> => {
+  try {
+    const response = await axios.get(`${BASE_URL}/category/${id}/subject`)
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao buscar os registros da categoria: ${getErrorMessage(err)}`)
+  }
+}
+
 export {
   getCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   removeCategory,
+  getRecordsByCategoryId,
 }
