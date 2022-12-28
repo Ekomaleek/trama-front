@@ -1,6 +1,6 @@
 import { Record } from './Record'
 
-interface Ref {
+type Ref = {
   id: number
   content: string
   subject_id: Record['id']

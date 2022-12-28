@@ -12,7 +12,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 
-interface DialogProps {
+type DialogProps = {
   isOpen: boolean
   onClose: () => void
   isLoading: boolean

@@ -1,7 +1,7 @@
 import { Category } from './Category'
 import { Ref, RefForCreation, RefForUpdate } from './Ref'
 
-interface Record {
+type Record = {
   id: number
   name: string
   description: string

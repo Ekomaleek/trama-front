@@ -4,7 +4,7 @@ import { Flex, Box } from '@chakra-ui/react'
 import Navbar from 'components/Navbar'
 import Breadcrumb from 'components/Breadcrumb'
 
-interface LayoutProps {
+type LayoutProps = {
   children: ReactNode
 }
 

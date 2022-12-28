@@ -24,7 +24,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-interface RecordCardProps {
+type RecordCardProps = {
   record: Record
   setShouldUpdate: React.Dispatch<React.SetStateAction<boolean>>
 }
