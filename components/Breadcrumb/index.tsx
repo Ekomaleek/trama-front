@@ -16,6 +16,7 @@ const BreadcrumbComponent = (): JSX.Element => {
 
   return (
     <Flex
+      as='nav'
       mt='navbarHeight'
       px='8'
       py='4'

@@ -23,6 +23,7 @@ import {
   Button,
   Box,
   IconButton,
+  Textarea,
 } from '@chakra-ui/react'
 
 interface CreateRecordPageProps {
@@ -38,7 +39,11 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<RecordForCreationWithRefs>()
+  } = useForm<RecordForCreationWithRefs>({
+    defaultValues: {
+      refs: [{ content: '', subject_id: 0 }],
+    },
+  })
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -62,7 +67,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container>
+      <Container h='100%'>
         <Heading size='2xl' textAlign='center' pb='8'>
           Criar registro
         </Heading>
@@ -145,8 +150,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
 
           <FormControl pt='4'>
             <FormLabel>Descrição</FormLabel>
-            <Input
-              type='text'
+            <Textarea
               placeholder='Descrição do registro'
               {...register('description')}
             />

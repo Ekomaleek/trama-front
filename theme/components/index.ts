@@ -5,6 +5,7 @@ import Menu from './menu'
 import Button from './button'
 import Input from './input'
 import Select from './select'
+import Textarea from './textarea'
 
 const components = {
   Heading,
@@ -14,6 +15,7 @@ const components = {
   Button,
   Input,
   Select,
+  Textarea,
 }
 
 export default components

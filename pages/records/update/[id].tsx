@@ -27,6 +27,7 @@ import {
   Select,
   Box,
   IconButton,
+  Textarea,
 } from '@chakra-ui/react'
 
 interface UpdateRecordPageProps {
@@ -164,8 +165,7 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
 
           <FormControl pt='4'>
             <FormLabel>Descrição</FormLabel>
-            <Input
-              type='text'
+            <Textarea
               placeholder='Descrição do registro'
               {...register('description')}
             />
