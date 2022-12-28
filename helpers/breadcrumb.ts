@@ -1,28 +1,31 @@
 import { NextRouter } from 'next/router'
 
-interface BreadcrumbItem {
+type BreadcrumbItem = {
   id: number
   name: string
   url: string
 }
 
-interface BreadcrumbDictionary {
+type BreadcrumbDictionary = {
   [key: string]: string
 }
 
+const actions = ['create', 'update']
 const breadcrumbDictionary: BreadcrumbDictionary = {
   '/': 'Home',
   '/categories': 'Categorias',
+  '/categories/id': 'Visualizar categoria',
   '/categories/create': 'Criar categoria',
-  '/categories/update': 'Editar categoria',
+  '/categories/update/id': 'Editar categoria',
   '/records': 'Registros',
+  '/records/id': 'Visualizar registro',
   '/records/create': 'Criar registro',
-  '/records/update': 'Editar registro',
+  '/records/update/id': 'Editar registro',
 }
 
 const resolveItemName = (url: string): string => {
-  const urlWithoutId = url.replace(/\/(\d+)/g, '')
-  const keyOnDict = Object.keys(breadcrumbDictionary).find(dictEntry => dictEntry === urlWithoutId)
+  const urlGenericId = url.replace(/(\d+)/g, 'id')
+  const keyOnDict = Object.keys(breadcrumbDictionary).find(dictEntry => dictEntry === urlGenericId)
 
   const name = keyOnDict !== undefined
     ? breadcrumbDictionary[keyOnDict]
@@ -34,10 +37,13 @@ const resolveItemName = (url: string): string => {
 const resolveItemUrl = (pathItems: string[], index: number): string => {
   if (index === 0) return '/'
 
-  // Checks whether the next pathItem is a number (an id).
+  // Checks whether the next pathItem is a number (an id) and the current is an action
   // If so, skip this item
   const nextItem = pathItems[index + 1]
-  if (!isNaN(parseInt(nextItem))) return ''
+  if (
+    !isNaN(parseInt(nextItem)) &&
+    actions.includes(pathItems[index])
+  ) return ''
 
   const currentItems = pathItems.slice(0, index + 1)
   return currentItems.join('/')
@@ -50,7 +56,7 @@ const getBreadcrumbItems = (router: NextRouter): BreadcrumbItem[] => {
     ? ['']
     : router.asPath.split('/')
 
-  const breadcrumbItems = pathItems.map((path, index) => {
+  const breadcrumbItems = pathItems.map((_, index) => {
     const url = resolveItemUrl(pathItems, index)
     const name = resolveItemName(url)
 

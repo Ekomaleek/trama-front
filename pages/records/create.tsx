@@ -68,7 +68,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container h='100%'>
+      <Container>
         <Heading size='2xl' textAlign='center' pb='8'>
           Criar registro
         </Heading>

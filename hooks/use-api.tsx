@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-interface UseApi<Resource, Data> {
+type UseApi<Resource, Data> = {
   data: Resource | Resource[]
   error: string
   isLoading: boolean

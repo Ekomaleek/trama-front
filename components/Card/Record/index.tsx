@@ -26,7 +26,7 @@ import {
 
 type RecordCardProps = {
   record: Record
-  setShouldUpdate: React.Dispatch<React.SetStateAction<boolean>>
+  setShouldUpdate?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const RecordCard = ({ record, setShouldUpdate }: RecordCardProps): JSX.Element => {
@@ -34,11 +34,15 @@ const RecordCard = ({ record, setShouldUpdate }: RecordCardProps): JSX.Element =
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
+    const successCallback = setShouldUpdate !== undefined
+      ? () => setShouldUpdate(true)
+      : () => null
+
     await makeRequest({
       apiMethod: removeRecord,
       apiMethodArgs: { id: record.id },
       successMessage: `O registro ${record.name} foi removido com sucesso.`,
-      successCallback: () => setShouldUpdate(true),
+      successCallback,
       finallyCallback: () => onClose(),
     })
   }
@@ -71,9 +75,11 @@ const RecordCard = ({ record, setShouldUpdate }: RecordCardProps): JSX.Element =
       </CardBody>
 
       <CardFooter justifyContent='space-between'>
-        <Button>
-          Ver registro
-        </Button>
+        <NextLink href={`/records/${record.id}`}>
+          <Button>
+            Ver registro
+          </Button>
+        </NextLink>
 
         <Menu>
           <MenuButton
