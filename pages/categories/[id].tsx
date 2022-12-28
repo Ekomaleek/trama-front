@@ -1,6 +1,4 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 
 import { NextPage, GetServerSideProps } from 'next'
 import { Category, CategoryForDeletion } from 'types/Category'
@@ -40,17 +38,6 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
       withRedirect: '/categories',
     })
   }
-
-  const router = useRouter()
-  const [shouldUpdate, setShouldUpdate] = useState<boolean>(false)
-
-  // Reload page props if a category gets removed
-  useEffect(() => {
-    if (shouldUpdate) {
-      void router.replace(router.asPath)
-      setShouldUpdate(false)
-    }
-  }, [shouldUpdate, router])
 
   return (
     <>
@@ -102,7 +89,6 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
             <RecordCard
               key={record.id}
               record={record}
-              setShouldUpdate={setShouldUpdate}
             />
           )}
         </SimpleGrid>
@@ -128,6 +114,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const category = await getCategoryById(parseInt(id))
     const records = await getRecordsByCategoryId(parseInt(id))
+
     return {
       props: {
         category,
@@ -135,9 +122,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   } catch (err) {
-    return {
-      notFound: true,
-    }
+    return { notFound: true }
   }
 }
 

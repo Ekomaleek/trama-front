@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { NextPage, GetServerSideProps } from 'next'
 import { Record } from 'types/Record'
@@ -25,17 +23,6 @@ type RecordsPageProps = {
 }
 
 const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
-  const router = useRouter()
-  const [shouldUpdate, setShouldUpdate] = useState<boolean>(false)
-
-  // Reload page props if a record gets removed
-  useEffect(() => {
-    if (shouldUpdate) {
-      void router.replace(router.asPath)
-      setShouldUpdate(false)
-    }
-  }, [shouldUpdate, router])
-
   return (
     <>
       <Head>
@@ -86,7 +73,6 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
             <RecordCard
               key={record.id}
               record={record}
-              setShouldUpdate={setShouldUpdate}
             />
           )}
         </SimpleGrid>
