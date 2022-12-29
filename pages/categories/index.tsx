@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { NextPage, GetServerSideProps } from 'next'
 import { Category } from 'types/Category'
@@ -25,17 +23,6 @@ type CategoriesPageProps = {
 }
 
 const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) => {
-  const router = useRouter()
-  const [shouldUpdate, setShouldUpdate] = useState<boolean>(false)
-
-  // Reload page props if a category gets removed
-  useEffect(() => {
-    if (shouldUpdate) {
-      void router.replace(router.asPath)
-      setShouldUpdate(false)
-    }
-  }, [shouldUpdate, router])
-
   return (
     <>
       <Head>
@@ -86,7 +73,6 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
             <CategoryCard
               key={category.id}
               category={category}
-              setShouldUpdate={setShouldUpdate}
             />
           )}
         </SimpleGrid>
