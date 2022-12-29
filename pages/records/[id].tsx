@@ -22,13 +22,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-type CreateRecordPageProps = {
+type RecordPageProps = {
   record: Record
   refs: Ref[]
   category: Category
 }
 
-const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ record, refs, category }) => {
+const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
   const { isLoading, makeRequest } = useApi<Record, RecordForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -38,7 +38,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ record, refs, categ
       apiMethodArgs: { id: record.id },
       successMessage: `O registro ${record.name} foi removido com sucesso.`,
       finallyCallback: () => onClose(),
-      withRedirect: '/records',
+      withRedirect: 'back',
     })
   }
 
@@ -125,4 +125,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default CreateRecordPage
+export default RecordPage

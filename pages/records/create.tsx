@@ -9,7 +9,6 @@ import { Category } from 'types/Category'
 import { getCategories } from 'api/category'
 import { createRecordWithRefs } from 'api/record'
 import { useApi } from 'hooks/use-api'
-import { getErrorMessage } from 'helpers'
 
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
@@ -27,13 +26,12 @@ import {
 } from '@chakra-ui/react'
 
 type CreateRecordPageProps = {
+  category_id: Category['id']
   categories: Category[]
-  error: string
 }
 
-const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }) => {
+const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, categories }) => {
   const { isLoading, makeRequest } = useApi<Record, RecordForCreationWithRefs>()
-
   const {
     register,
     control,
@@ -41,6 +39,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
     formState: { errors },
   } = useForm<RecordForCreationWithRefs>({
     defaultValues: {
+      category_id,
       refs: [{ content: '', subject_id: 0 }],
     },
   })
@@ -56,7 +55,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
       apiMethod: createRecordWithRefs,
       apiMethodArgs: { ...data, refs: nonEmptyRefs },
       successMessage: `O registro ${data.name} foi criado com sucesso.`,
-      withRedirect: '/records',
+      withRedirect: 'back',
     })
   }
 
@@ -171,20 +170,22 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ categories, error }
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const category_id = context.query?.category_id ?? null
+
   try {
     const categories = await getCategories()
     return {
       props: {
+        category_id,
         categories,
-        error: '',
       },
     }
   } catch (err) {
     return {
       props: {
+        category_id,
         categories: [],
-        error: getErrorMessage(err),
       },
     }
   }

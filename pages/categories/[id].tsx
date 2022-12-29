@@ -89,6 +89,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
             <RecordCard
               key={record.id}
               record={record}
+              redirectOnRemoval={`/categories/${category.id}`}
             />
           )}
         </SimpleGrid>
