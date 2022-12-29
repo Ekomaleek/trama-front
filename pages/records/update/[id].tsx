@@ -69,8 +69,8 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
         refs: nonEmptyRefs,
         originalRefs: refs,
       },
-      withRedirect: '/records',
       successMessage: `O registro ${record.name} foi editado com sucesso.`,
+      withRedirect: 'back',
     })
   }
 
@@ -178,7 +178,7 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
             mt='8'
             isLoading={isLoading}
           >
-            Editar categoria
+            Editar registro
           </Button>
         </form>
       </Container>

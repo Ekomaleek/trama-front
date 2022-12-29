@@ -26,19 +26,21 @@ import {
 
 type RecordCardProps = {
   record: Record
+  redirectOnRemoval?: string
 }
 
-const RecordCard = ({ record }: RecordCardProps): JSX.Element => {
+const RecordCard = ({ record, redirectOnRemoval }: RecordCardProps): JSX.Element => {
   const { isLoading, makeRequest } = useApi<Record, RecordForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
+    const redirectUrl = redirectOnRemoval ?? '/records'
     await makeRequest({
       apiMethod: removeRecord,
       apiMethodArgs: { id: record.id },
       successMessage: `O registro ${record.name} foi removido com sucesso.`,
       finallyCallback: () => onClose(),
-      withRedirect: '/records',
+      withRedirect: redirectUrl,
     })
   }
 
@@ -84,7 +86,7 @@ const RecordCard = ({ record }: RecordCardProps): JSX.Element => {
           />
 
           <MenuList>
-            <NextLink href={`records/update/${record.id}`}>
+            <NextLink href={`/records/update/${record.id}`}>
               <MenuItem icon={<EditIcon />}>
                 Editar
               </MenuItem>

@@ -5,14 +5,14 @@ import { useRouter } from 'next/router'
 import { getErrorMessage } from 'helpers'
 
 type UseApi<Resource, Data> = {
-  data?: Resource
+  resource?: Resource
   error: string
   isLoading: boolean
   makeRequest: (options: {
     apiMethod: (data: Data) => Promise<Resource>
     apiMethodArgs: Data
     successMessage: string
-    withRedirect?: string
+    withRedirect?: string | 'back'
     successCallback?: () => any
     errorCallback?: () => any
     finallyCallback?: () => any
@@ -23,7 +23,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
   const toast = useToast()
   const router = useRouter()
 
-  const [data, setData] = useState<UseApi<Resource, Data>['data']>()
+  const [resource, setResource] = useState<UseApi<Resource, Data>['resource']>()
   const [isLoading, setIsLoading] = useState<UseApi<Resource, Data>['isLoading']>(false)
   const [error, setError] = useState<UseApi<Resource, Data>['error']>('')
 
@@ -40,9 +40,13 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
       setIsLoading(true)
 
       const response = await apiMethod(apiMethodArgs)
-      setData(response)
+      setResource(response)
 
-      withRedirect !== undefined && await router.push(withRedirect)
+      if (withRedirect !== undefined) {
+        withRedirect === 'back'
+          ? router.back()
+          : await router.push(withRedirect)
+      }
       successCallback?.()
 
       toast({
@@ -67,7 +71,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
     }
   }
 
-  return { data, isLoading, error, makeRequest }
+  return { resource, isLoading, error, makeRequest }
 }
 
 export { useApi }

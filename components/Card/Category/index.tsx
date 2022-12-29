@@ -26,19 +26,21 @@ import {
 
 type CategoryCardProps = {
   category: Category
+  redirectOnRemoval?: string
 }
 
-const CategoryCard = ({ category }: CategoryCardProps): JSX.Element => {
+const CategoryCard = ({ category, redirectOnRemoval }: CategoryCardProps): JSX.Element => {
   const { isLoading, makeRequest } = useApi<Category, CategoryForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
+    const redirectUrl = redirectOnRemoval ?? '/categories'
     await makeRequest({
       apiMethod: removeCategory,
       apiMethodArgs: { id: category.id },
       successMessage: `A categoria ${category.name} foi removida com sucesso.`,
       finallyCallback: () => onClose(),
-      withRedirect: '/categories',
+      withRedirect: redirectUrl,
     })
   }
 

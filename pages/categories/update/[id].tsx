@@ -38,8 +38,8 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
     await makeRequest({
       apiMethod: updateCategory,
       apiMethodArgs: { id: category.id, ...data },
-      withRedirect: '/categories',
       successMessage: `A categoria ${category.name} foi editada com sucesso.`,
+      withRedirect: 'back',
     })
   }
 
