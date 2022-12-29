@@ -26,24 +26,19 @@ import {
 
 type RecordCardProps = {
   record: Record
-  setShouldUpdate?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const RecordCard = ({ record, setShouldUpdate }: RecordCardProps): JSX.Element => {
+const RecordCard = ({ record }: RecordCardProps): JSX.Element => {
   const { isLoading, makeRequest } = useApi<Record, RecordForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
-    const successCallback = setShouldUpdate !== undefined
-      ? () => setShouldUpdate(true)
-      : () => null
-
     await makeRequest({
       apiMethod: removeRecord,
       apiMethodArgs: { id: record.id },
       successMessage: `O registro ${record.name} foi removido com sucesso.`,
-      successCallback,
       finallyCallback: () => onClose(),
+      withRedirect: '/records',
     })
   }
 

@@ -26,24 +26,19 @@ import {
 
 type CategoryCardProps = {
   category: Category
-  setShouldUpdate?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CategoryCard = ({ category, setShouldUpdate }: CategoryCardProps): JSX.Element => {
+const CategoryCard = ({ category }: CategoryCardProps): JSX.Element => {
   const { isLoading, makeRequest } = useApi<Category, CategoryForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleDelete = async (): Promise<void> => {
-    const successCallback = setShouldUpdate !== undefined
-      ? () => setShouldUpdate(true)
-      : () => null
-
     await makeRequest({
       apiMethod: removeCategory,
       apiMethodArgs: { id: category.id },
       successMessage: `A categoria ${category.name} foi removida com sucesso.`,
-      successCallback,
       finallyCallback: () => onClose(),
+      withRedirect: '/categories',
     })
   }
 
