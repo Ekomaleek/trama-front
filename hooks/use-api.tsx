@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
+import { getErrorMessage } from 'helpers'
+
 type UseApi<Resource, Data> = {
-  data: Resource | Resource[]
+  data?: Resource
   error: string
   isLoading: boolean
   makeRequest: (options: {
-    apiMethod: (data: Data) => Promise<Resource | Resource[]>
+    apiMethod: (data: Data) => Promise<Resource>
     apiMethodArgs: Data
     successMessage: string
     withRedirect?: string
@@ -21,7 +23,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
   const toast = useToast()
   const router = useRouter()
 
-  const [data, setData] = useState<UseApi<Resource, Data>['data']>([])
+  const [data, setData] = useState<UseApi<Resource, Data>['data']>()
   const [isLoading, setIsLoading] = useState<UseApi<Resource, Data>['isLoading']>(false)
   const [error, setError] = useState<UseApi<Resource, Data>['error']>('')
 
@@ -34,34 +36,35 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
     errorCallback,
     finallyCallback,
   }) => {
-    setIsLoading(true)
+    try {
+      setIsLoading(true)
 
-    apiMethod(apiMethodArgs)
-      .then(res => {
-        toast({
-          title: 'Tudo certo!',
-          description: successMessage,
-          status: 'success',
-        })
-        setData(res)
+      const response = await apiMethod(apiMethodArgs)
+      setData(response)
 
-        withRedirect !== undefined && router.push(withRedirect)
-        successCallback?.()
-      })
-      .catch((err: Error) => {
-        toast({
-          title: 'Ops! Algo deu errado.',
-          description: err.message,
-          status: 'error',
-        })
-        setError(err.message)
+      withRedirect !== undefined && await router.push(withRedirect)
+      successCallback?.()
 
-        errorCallback?.()
+      toast({
+        title: 'Tudo certo!',
+        description: successMessage,
+        status: 'success',
+        isClosable: true,
       })
-      .finally(() => {
-        setIsLoading(false)
-        finallyCallback?.()
+    } catch (err) {
+      setError(getErrorMessage(err))
+      errorCallback?.()
+
+      toast({
+        title: 'Ops! Algo deu errado.',
+        description: getErrorMessage(err),
+        status: 'error',
+        isClosable: true,
       })
+    } finally {
+      setIsLoading(false)
+      finallyCallback?.()
+    }
   }
 
   return { data, isLoading, error, makeRequest }
