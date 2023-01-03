@@ -14,7 +14,7 @@ import {
   Container,
   Heading,
   Text,
-  Box,
+  Flex,
   Button,
   SimpleGrid,
   useDisclosure,
@@ -56,7 +56,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
           {category.description}
         </Text>
 
-        <Box textAlign='center' py='8'>
+        <Flex py='8' flexWrap='wrap' justifyContent='center'>
           <NextLink href={`/records/create?category_id=${category.id}`}>
             <Button mr='4'>
               Criar registro
@@ -68,10 +68,11 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
               Editar
             </Button>
           </NextLink>
+
           <Button colorScheme='red' onClick={onOpen}>
               Remover
           </Button>
-        </Box>
+        </Flex>
 
         {
           records.length === 0 &&

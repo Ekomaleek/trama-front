@@ -5,7 +5,7 @@ const NavbarLink = chakra<typeof NextLink, NextLinkProps>(NextLink, {
   shouldForwardProp: (prop) => ['href', 'target', 'children', 'onClick'].includes(prop),
   baseStyle: {
     fontWeight: 'bold',
-    fontSize: '18px',
+    fontSize: '1.1rem',
     letterSpacing: '2px',
     transitionProperty: 'color',
     transitionDuration: 'normal',

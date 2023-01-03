@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
+
 import { getBreadcrumbItems } from 'helpers/breadcrumb'
+import { breakpoints } from 'theme'
 
 import NavbarLink from 'components/_core/NavbarLink'
 import {
@@ -15,11 +17,13 @@ const BreadcrumbComponent = (): JSX.Element => {
   const router = useRouter()
   const allBreadcrumbItems = getBreadcrumbItems(router)
 
-  const [isDesktop] = useMediaQuery('(min-width: 978px)')
+  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
   // if in mobile device, only renders last page visited
   const breadcrumbItems = isDesktop
     ? allBreadcrumbItems
     : [allBreadcrumbItems[allBreadcrumbItems.length - 2]]
+
+  const shouldBreadcrumbRender = breadcrumbItems[0] !== undefined
 
   return (
     <Flex
@@ -31,7 +35,7 @@ const BreadcrumbComponent = (): JSX.Element => {
       alignItems='baseline'
     >
       {
-        breadcrumbItems[0] !== undefined &&
+        shouldBreadcrumbRender &&
         <>
           <Text
             mr='4'
