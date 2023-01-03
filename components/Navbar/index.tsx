@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import navLinks from 'helpers/nav-links'
+import { breakpoints } from 'theme'
 
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Flex, IconButton, useMediaQuery } from '@chakra-ui/react'
@@ -13,7 +14,7 @@ const Navbar = (): JSX.Element => {
     setIsOpen(isOpen => !isOpen)
   }
 
-  const [isDesktop] = useMediaQuery('(min-width: 978px)')
+  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
 
   return (
     <Flex
@@ -33,6 +34,7 @@ const Navbar = (): JSX.Element => {
         icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
         onClick={toggleMenu}
         display={isDesktop ? 'none' : 'block'}
+        size='sm'
       />
 
       {isDesktop &&

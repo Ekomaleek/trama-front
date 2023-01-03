@@ -47,6 +47,7 @@ const Dialog = (props: DialogProps): JSX.Element => {
           bg='black'
           border='1px solid'
           borderColor='orange.500'
+          m='8'
         >
           <AlertDialogHeader>
             <Heading size='lg'>
