@@ -6,6 +6,7 @@ import Button from './button'
 import Input from './input'
 import Select from './select'
 import Textarea from './textarea'
+import Container from './container'
 
 const components = {
   Heading,
@@ -16,6 +17,7 @@ const components = {
   Input,
   Select,
   Textarea,
+  Container,
 }
 
 export default components
