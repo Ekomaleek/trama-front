@@ -9,13 +9,36 @@ const colors = {
   white: '#EEEEEE',
 }
 
+const breakpoints = {
+  sm: '380px',
+  md: '768px',
+  lg: '960px',
+  xl: '1200px',
+  '2xl': '1536px',
+}
+
 // Global styles from chakra-ui
 const styles = {
   global: {
+    // Redefine chakra space variables for consistent spacings in multiple devices
+    ':root': {
+      '--chakra-space-2': '0.4rem',
+      '--chakra-space-4': '0.8rem',
+      '--chakra-space-8': '1.5rem',
+      [`@media (min-width: ${breakpoints.md})`]: {
+        '--chakra-space-2': '0.5rem',
+        '--chakra-space-4': '1rem',
+        '--chakra-space-8': '2rem',
+      },
+    },
     'html, body': {
       padding: 0,
       margin: 0,
       boxSizing: 'border-box',
+      fontSize: '14px',
+      [`@media (min-width: ${breakpoints.md})`]: {
+        fontSize: '16px',
+      },
     },
     '*': {
       color: 'white',
@@ -52,6 +75,7 @@ const space = {
 
 const theme = {
   colors,
+  breakpoints,
   navbarHeight,
   styles,
   fonts,
@@ -59,4 +83,6 @@ const theme = {
   sizes,
   space,
 }
+
 export default theme
+export { breakpoints }
