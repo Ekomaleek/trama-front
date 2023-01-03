@@ -8,11 +8,18 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react'
 
 const BreadcrumbComponent = (): JSX.Element => {
   const router = useRouter()
-  const breadcrumbItems = getBreadcrumbItems(router)
+  const allBreadcrumbItems = getBreadcrumbItems(router)
+
+  const [isDesktop] = useMediaQuery('(min-width: 978px)')
+  // if in mobile device, only renders last page visited
+  const breadcrumbItems = isDesktop
+    ? allBreadcrumbItems
+    : [allBreadcrumbItems[allBreadcrumbItems.length - 2]]
 
   return (
     <Flex
@@ -23,30 +30,39 @@ const BreadcrumbComponent = (): JSX.Element => {
       alignSelf='flex-start'
       alignItems='baseline'
     >
-      <Text mr='4' fontSize='sm'>
-        Você está aqui:
-      </Text>
-      <Breadcrumb
-        separator='>'
-        fontWeight='bold'
-        fontSize='sm'
-      >
-        {breadcrumbItems.map(item =>
-          <BreadcrumbItem key={item.id}>
-            <BreadcrumbLink
-              as={NavbarLink}
-              href={item.url}
-              mr='0'
-              fontSize='sm'
-              _hover={{
-                textDecoration: 'none',
-              }}
-            >
-              {item.name}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        )}
-      </Breadcrumb>
+      {
+        breadcrumbItems[0] !== undefined &&
+        <>
+          <Text
+            mr='4'
+            fontSize='sm'
+            whiteSpace='nowrap'
+          >
+            { isDesktop ? 'Você está aqui: ' : 'Voltar para: ' }
+          </Text>
+          <Breadcrumb
+            separator='>'
+            fontWeight='bold'
+            fontSize='sm'
+          >
+            {breadcrumbItems.map(item =>
+              <BreadcrumbItem key={item.id}>
+                <BreadcrumbLink
+                  as={NavbarLink}
+                  href={item.url}
+                  m='0'
+                  fontSize='sm'
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  {item.name}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            )}
+          </Breadcrumb>
+        </>
+      }
     </Flex>
   )
 }
