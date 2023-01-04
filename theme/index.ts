@@ -36,6 +36,7 @@ const styles = {
       margin: 0,
       boxSizing: 'border-box',
       fontSize: '14px',
+      scrollBehavior: 'smooth',
       [`@media (min-width: ${breakpoints.md})`]: {
         fontSize: '16px',
       },
