@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 import { Flex, Box } from '@chakra-ui/react'
 import Navbar from 'components/Navbar'
 import Breadcrumb from 'components/Breadcrumb'
+import BackToTop from 'components/BackToTop'
 
 type LayoutProps = {
   children: ReactNode
@@ -28,6 +29,8 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
       >
         {children}
       </Box>
+
+      <BackToTop />
     </Flex>
   )
 }
