@@ -47,8 +47,8 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
     <>
       <Head>
         <title>Trama - Editar categoria</title>
-        <meta name="description" content="Editar categoria" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Editar categoria' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

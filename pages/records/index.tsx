@@ -27,8 +27,8 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
     <>
       <Head>
         <title>Trama - Registros</title>
-        <meta name="description" content="Trama - Registros de usuário" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Trama - Registros de usuário' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>
@@ -51,7 +51,7 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
         {
           error !== '' &&
           <Text textAlign='center' fontSize='xl' fontWeight='bold' color='red.500'>
-            Ocorreu um erro ao buscar seus registros:<br/>
+            Ocorreu um erro ao buscar seus registros:<br />
             {error}
           </Text>
         }
