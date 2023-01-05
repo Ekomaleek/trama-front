@@ -9,8 +9,8 @@ const HomePage: NextPage = () => {
     <>
       <Head>
         <title>Trama</title>
-        <meta name="description" content="Planeje, registre, evolua" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Planeje, registre, evolua' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>

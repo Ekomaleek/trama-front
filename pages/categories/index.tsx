@@ -27,8 +27,8 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
     <>
       <Head>
         <title>Trama - Categorias</title>
-        <meta name="description" content="Trama - Categorias de usuário" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Trama - Categorias de usuário' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>
@@ -51,7 +51,8 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
         {
           error !== '' &&
           <Text textAlign='center' fontSize='xl' fontWeight='bold' color='red.500'>
-            Ocorreu um erro ao buscar suas categorias:<br/>
+            Ocorreu um erro ao buscar suas categorias:
+            <br />
             {error}
           </Text>
         }
