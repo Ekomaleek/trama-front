@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { User } from 'types/User'
+import { User, UserForLogin } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
 
@@ -19,10 +19,10 @@ import {
 } from '@chakra-ui/react'
 
 const LoginPage: NextPage = () => {
-  const { isLoading, makeRequest } = useApi<User, User>()
-  const { register, handleSubmit, formState: { errors } } = useForm<User>()
+  const { isLoading, makeRequest } = useApi<User, UserForLogin>()
+  const { register, handleSubmit, formState: { errors } } = useForm<UserForLogin>()
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
     console.log(data)
     // await makeRequest({
     //   apiMethod: createCategory,
