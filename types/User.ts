@@ -3,4 +3,6 @@ type User = {
   password: string
 }
 
-export type { User }
+type UserForLogin = Pick<User, 'username' | 'password'>
+
+export type { User, UserForLogin }
