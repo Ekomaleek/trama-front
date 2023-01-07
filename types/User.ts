@@ -1,8 +1,15 @@
 type User = {
   username: string
+  email: string
   password: string
 }
 
 type UserForLogin = Pick<User, 'username' | 'password'>
 
-export type { User, UserForLogin }
+type UserForSignup = User
+
+export type {
+  User,
+  UserForLogin,
+  UserForSignup,
+}
