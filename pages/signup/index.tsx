@@ -2,9 +2,10 @@ import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { User, UserForSignup } from 'types/User'
+import { UserForSignup, UserWithoutPassword } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
+import { createUser } from 'auth'
 
 import Link from 'components/_core/Link'
 import {
@@ -19,17 +20,16 @@ import {
 } from '@chakra-ui/react'
 
 const SignupPage: NextPage = () => {
-  const { isLoading, makeRequest } = useApi<User, UserForSignup>()
+  const { isLoading, makeRequest } = useApi<UserWithoutPassword, UserForSignup>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForSignup>()
 
   const onSubmit: SubmitHandler<UserForSignup> = async (data) => {
-    console.log(data)
-    // await makeRequest({
-    //   apiMethod: createCategory,
-    //   apiMethodArgs: data,
-    //   successMessage: `A categoria ${data.name} foi criada com sucesso.`,
-    //   withRedirect: '/categories',
-    // })
+    await makeRequest({
+      apiMethod: createUser,
+      apiMethodArgs: data,
+      successMessage: `O usuário ${data.username} foi criado com sucesso.`,
+      withRedirect: `/signup/account-verification?username=${data.username}&email=${data.email}`,
+    })
   }
 
   return (
