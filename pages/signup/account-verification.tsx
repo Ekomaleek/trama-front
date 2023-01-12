@@ -77,7 +77,7 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
         </Heading>
 
         <Text textAlign='center' pt='4' pb='8'>
-          Enviamos um e-mail para <strong>{email}</strong> com um código de confirmação.<br />
+          Enviamos um e-mail para {email === '' ? 'você' : <strong>{email}</strong>} com um código de confirmação.<br />
           Por favor, insira-o abaixo para verificar sua conta.
         </Text>
 
@@ -119,8 +119,8 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const username = context.query?.username
-  const email = context.query?.email
-  if (username === undefined || email === undefined) return { notFound: true }
+  const email = context.query?.email ?? ''
+  if (username === undefined) return { notFound: true }
 
   return {
     props: { username, email },
