@@ -7,6 +7,7 @@ import {
 
 import { NextRouter } from 'next/router'
 import {
+  User,
   UserForLogin,
   UserForSignup,
   UserForSignupConfirmation,
@@ -61,6 +62,22 @@ const confirmUserAccount = async ({ username, code }: UserForSignupConfirmation)
   })
 }
 
+const resendCode = async ({ username }: Pick<User, 'username'>): Promise<string> => {
+  const user = new CognitoUser({
+    Username: username,
+    Pool: userPool,
+  })
+
+  return await new Promise((resolve, reject) => {
+    user.resendConfirmationCode(function (err, result) {
+      if (err !== null && err !== undefined) reject(err.message)
+      else if (result !== undefined) {
+        resolve(result.Destination)
+      }
+    })
+  })
+}
+
 // TODO: redirect with useApi errorCallback
 type AuthenticateUserParams = {
   username: UserForLogin['username']
@@ -96,6 +113,7 @@ const authenticateUser = async ({ username, password, router }: AuthenticateUser
 export {
   createUser,
   confirmUserAccount,
+  resendCode,
   authenticateUser,
 }
 

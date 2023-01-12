@@ -6,8 +6,9 @@ import { GetServerSideProps, NextPage } from 'next'
 import { User, UserForSignupConfirmation } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
-import { confirmUserAccount } from 'auth'
+import { confirmUserAccount, resendCode } from 'auth'
 
+import { RepeatIcon } from '@chakra-ui/icons'
 import {
   Container,
   Heading,
@@ -18,6 +19,7 @@ import {
   Button,
   PinInput,
   PinInputField,
+  Box,
 } from '@chakra-ui/react'
 
 type AccountVerificationCode = {
@@ -30,12 +32,19 @@ type AccountVerificationPageProps = {
 }
 
 const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ username, email }) => {
-  const { isLoading, makeRequest } = useApi<string, UserForSignupConfirmation>()
+  const {
+    isLoading: isConfirmationLoading,
+    makeRequest: makeConfirmationRequest,
+  } = useApi<string, UserForSignupConfirmation>()
+  const {
+    isLoading: isResendLoading,
+    makeRequest: makeResendRequest,
+  } = useApi<string, Pick<User, 'username'>>()
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<AccountVerificationCode>()
   const CODE_LENGTH = 6
 
   const onSubmit: SubmitHandler<AccountVerificationCode> = async (data) => {
-    await makeRequest({
+    await makeConfirmationRequest({
       apiMethod: confirmUserAccount,
       apiMethodArgs: { ...data, username },
       successMessage: `O usuário ${username} foi confirmado com sucesso.`,
@@ -45,6 +54,14 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
 
   const handlePinChange = (value: string): void => {
     setValue('code', value)
+  }
+
+  const handleResendCode = async (): Promise<void> => {
+    await makeResendRequest({
+      apiMethod: resendCode,
+      apiMethodArgs: { username },
+      successMessage: 'O código foi enviado com sucesso.',
+    })
   }
 
   useEffect(() => {
@@ -107,11 +124,21 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
             type='submit'
             w='100%'
             mt='8'
-            isLoading={isLoading}
+            isLoading={isConfirmationLoading}
           >
             Confirmar
           </Button>
         </form>
+
+        <Box textAlign='center' mt='4'>
+          <Button
+            leftIcon={<RepeatIcon />}
+            isLoading={isResendLoading}
+            onClick={handleResendCode}
+          >
+            Reenviar Código
+          </Button>
+        </Box>
       </Container>
     </>
   )
