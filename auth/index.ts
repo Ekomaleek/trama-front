@@ -110,11 +110,32 @@ const authenticateUser = async ({ username, password, router }: AuthenticateUser
   })
 }
 
+const logoutUser = async ({ username }: Pick<User, 'username'>): Promise<void> => {
+  const user = new CognitoUser({
+    Username: username,
+    Pool: userPool,
+  })
+
+  return await new Promise((resolve, reject) => {
+    user.signOut(function () {
+      resolve()
+    })
+  })
+}
+
+const getCurrentUser = async (): Promise<CognitoUser | null> => {
+  const user = userPool.getCurrentUser()
+  return user
+}
+
 export {
+  userPool,
   createUser,
   confirmUserAccount,
   resendCode,
   authenticateUser,
+  logoutUser,
+  getCurrentUser,
 }
 
 export type {
