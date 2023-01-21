@@ -1,0 +1,36 @@
+type RouteScopedFor =
+  'allUsers' |
+  'notLoggedInUsers' |
+  'loggedInUsers'
+
+type RouteScopes = {
+  [key in RouteScopedFor]: string[]
+}
+
+const routeScopes: RouteScopes = {
+  allUsers: [],
+  notLoggedInUsers: [
+    '/signup',
+    '/login',
+  ],
+  loggedInUsers: [
+    '/categories',
+    '/records',
+    '/dashboard',
+  ],
+}
+
+const getCurrentScope = (pathname: string): RouteScopedFor | null => {
+  if (pathname === '/') return 'notLoggedInUsers'
+
+  let key: RouteScopedFor
+  for (key in routeScopes) {
+    if (routeScopes[key].find(path => pathname.startsWith(path)) !== undefined) {
+      return key
+    }
+  }
+
+  return null
+}
+
+export { getCurrentScope }
