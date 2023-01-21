@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { UserForLogin } from 'types/User'
+import { UserForLogin, UserFromLogin } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
 import { loginUser } from 'api/auth'
@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 
 const LoginPage: NextPage = () => {
-  const { isLoading, makeRequest } = useApi<string, UserForLogin>()
+  const { isLoading, makeRequest } = useApi<UserFromLogin, UserForLogin>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForLogin>()
 
   const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
