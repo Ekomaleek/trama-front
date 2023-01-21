@@ -174,7 +174,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const category_id = context.query?.category_id ?? null
 
   try {
-    const categories = await getCategories()
+    const categories = await getCategories(context.req)
     return {
       props: {
         category_id,

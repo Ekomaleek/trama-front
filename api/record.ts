@@ -1,4 +1,4 @@
-import { customAxios as axios } from './'
+import { customAxios as axios, NextRequest } from './'
 import { createRef, removeRef, updateRef } from './ref'
 
 import { Ref } from 'types/Ref'
@@ -9,67 +9,113 @@ import {
   RecordForUpdate,
   RecordForUpdateWithRefs,
   RecordForDeletion,
+  RecordId,
 } from 'types/Record'
 
 import { getErrorMessage } from 'helpers'
 
-const getRecordById = async (id: Record['id']): Promise<Record> => {
+const getRecordById = async (data: RecordId, req?: NextRequest): Promise<Record> => {
+  const { id } = data
+
   try {
-    const response = await axios.get(`/subject/${id}`)
+    const response = await axios.get(
+      `/subject/${id}`,
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar o registro: ${getErrorMessage(err)}`)
   }
 }
 
-const getRecords = async (): Promise<Record[]> => {
+const getRecords = async (req?: NextRequest): Promise<Record[]> => {
   try {
-    const response = await axios.get('/subject')
+    const response = await axios.get(
+      '/subject',
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar registros: ${getErrorMessage(err)}`)
   }
 }
 
-const createRecord = async ({ name, description, category_id }: RecordForCreation): Promise<Record> => {
+const createRecord = async (data: RecordForCreation, req?: NextRequest): Promise<Record> => {
+  const { name, description, category_id } = data
+
   try {
-    const response = await axios.post('/subject/create', { name, description, category_id })
+    const response = await axios.post(
+      '/subject/create',
+      { name, description, category_id },
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao criar o registro: ${getErrorMessage(err)}`)
   }
 }
 
-const updateRecord = async ({ id, name, description, category_id }: RecordForUpdate): Promise<Record> => {
+const updateRecord = async (data: RecordForUpdate, req?: NextRequest): Promise<Record> => {
+  const {
+    id,
+    name,
+    description,
+    category_id,
+  } = data
+
   try {
-    const response = await axios.patch(`/subject/update/${id}`, { name, description, category_id })
+    const response = await axios.patch(
+      `/subject/update/${id}`,
+      { name, description, category_id },
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao atualizar o registro: ${getErrorMessage(err)}`)
   }
 }
 
-const removeRecord = async ({ id }: RecordForDeletion): Promise<Record> => {
+const removeRecord = async (data: RecordForDeletion, req?: NextRequest): Promise<Record> => {
+  const { id } = data
+
   try {
-    const response = await axios.delete(`/subject/remove/${id}`)
+    const response = await axios.delete(
+      `/subject/remove/${id}`,
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao remover o registro: ${getErrorMessage(err)}`)
   }
 }
 
-const getRefsByRecordId = async (id: Record['id']): Promise<Ref[]> => {
+const getRefsByRecordId = async (data: RecordId, req?: NextRequest): Promise<Ref[]> => {
+  const { id } = data
+
   try {
-    const response = await axios.get(`/subject/${id}/refs`)
+    const response = await axios.get(
+      `/subject/${id}/refs`,
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar referências do registro: ${getErrorMessage(err)}`)
   }
 }
 
-const createRecordWithRefs = async ({ name, description, category_id, refs }: RecordForCreationWithRefs): Promise<Record> => {
+const createRecordWithRefs = async (data: RecordForCreationWithRefs, req?: NextRequest): Promise<Record> => {
+  const {
+    name,
+    description,
+    category_id,
+    refs,
+  } = data
+
   try {
-    const record = await createRecord({ name, description, category_id })
+    const record = await createRecord(
+      { name, description, category_id },
+      req
+    )
 
     await Promise.all(refs.map(async ref =>
       await createRef({
@@ -84,33 +130,74 @@ const createRecordWithRefs = async ({ name, description, category_id, refs }: Re
   }
 }
 
-const updateRecordWithRefs = async ({ id, name, description, category_id, refs, originalRefs }: RecordForUpdateWithRefs): Promise<Record> => {
+const updateRecordWithRefs = async (data: RecordForUpdateWithRefs, req?: NextRequest): Promise<Record> => {
+  const {
+    id,
+    name,
+    description,
+    category_id,
+    refs,
+    originalRefs,
+  } = data
+
   try {
-    const record = await updateRecord({ id, name, description, category_id })
+    const record = await updateRecord(
+      {
+        id,
+        name,
+        description,
+        category_id,
+      },
+      req
+    )
 
-    const refsToUpdate = originalRefs.filter(originalRef => refs.find(ref => ref.id === originalRef.id))
-    await Promise.all(refsToUpdate.map(async ref =>
-      await updateRef({
-        id: ref.id,
-        subject_id: id,
-        content: ref.content,
-      })
-    ))
+    const refsToUpdate = originalRefs
+      .filter(originalRef =>
+        refs.find(ref => ref.id === originalRef.id)
+      )
+    await Promise.all(
+      refsToUpdate.map(async ref =>
+        await updateRef(
+          {
+            id: ref.id,
+            subject_id: id,
+            content: ref.content,
+          },
+          req
+        )
+      )
+    )
 
-    const refsToRemove = originalRefs.filter(originalRef => refs.find(ref => ref.id === originalRef.id) === undefined)
-    await Promise.all(refsToRemove.map(async ref =>
-      await removeRef({
-        id: ref.id,
-      })
-    ))
+    const refsToRemove = originalRefs
+      .filter(originalRef =>
+        refs.find(ref => ref.id === originalRef.id) === undefined
+      )
+    await Promise.all(
+      refsToRemove.map(async ref =>
+        await removeRef(
+          {
+            id: ref.id,
+          },
+          req
+        )
+      )
+    )
 
-    const refsToAdd = refs.filter(ref => originalRefs.find(originalRef => originalRef.id === ref.id) === undefined)
-    await Promise.all(refsToAdd.map(async ref =>
-      await createRef({
-        content: ref.content,
-        subject_id: id,
-      })
-    ))
+    const refsToAdd = refs
+      .filter(ref =>
+        originalRefs.find(originalRef => originalRef.id === ref.id) === undefined
+      )
+    await Promise.all(
+      refsToAdd.map(async ref =>
+        await createRef(
+          {
+            content: ref.content,
+            subject_id: id,
+          },
+          req
+        )
+      )
+    )
 
     return record
   } catch (err) {
