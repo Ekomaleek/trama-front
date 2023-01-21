@@ -1,5 +1,4 @@
-import axios from 'axios'
-
+import { customAxios as axios } from './'
 import { createRef, removeRef, updateRef } from './ref'
 
 import { Ref } from 'types/Ref'
@@ -14,11 +13,9 @@ import {
 
 import { getErrorMessage } from 'helpers'
 
-import { BASE_URL } from './'
-
 const getRecordById = async (id: Record['id']): Promise<Record> => {
   try {
-    const response = await axios.get(`${BASE_URL}/subject/${id}`)
+    const response = await axios.get(`/subject/${id}`)
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar o registro: ${getErrorMessage(err)}`)
@@ -27,7 +24,7 @@ const getRecordById = async (id: Record['id']): Promise<Record> => {
 
 const getRecords = async (): Promise<Record[]> => {
   try {
-    const response = await axios.get(`${BASE_URL}/subject`)
+    const response = await axios.get('/subject')
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar registros: ${getErrorMessage(err)}`)
@@ -36,7 +33,7 @@ const getRecords = async (): Promise<Record[]> => {
 
 const createRecord = async ({ name, description, category_id }: RecordForCreation): Promise<Record> => {
   try {
-    const response = await axios.post(`${BASE_URL}/subject/create`, { name, description, category_id })
+    const response = await axios.post('/subject/create', { name, description, category_id })
     return response.data
   } catch (err) {
     throw new Error(`Erro ao criar o registro: ${getErrorMessage(err)}`)
@@ -45,7 +42,7 @@ const createRecord = async ({ name, description, category_id }: RecordForCreatio
 
 const updateRecord = async ({ id, name, description, category_id }: RecordForUpdate): Promise<Record> => {
   try {
-    const response = await axios.patch(`${BASE_URL}/subject/update/${id}`, { name, description, category_id })
+    const response = await axios.patch(`/subject/update/${id}`, { name, description, category_id })
     return response.data
   } catch (err) {
     throw new Error(`Erro ao atualizar o registro: ${getErrorMessage(err)}`)
@@ -54,7 +51,7 @@ const updateRecord = async ({ id, name, description, category_id }: RecordForUpd
 
 const removeRecord = async ({ id }: RecordForDeletion): Promise<Record> => {
   try {
-    const response = await axios.delete(`${BASE_URL}/subject/remove/${id}`)
+    const response = await axios.delete(`/subject/remove/${id}`)
     return response.data
   } catch (err) {
     throw new Error(`Erro ao remover o registro: ${getErrorMessage(err)}`)
@@ -63,7 +60,7 @@ const removeRecord = async ({ id }: RecordForDeletion): Promise<Record> => {
 
 const getRefsByRecordId = async (id: Record['id']): Promise<Ref[]> => {
   try {
-    const response = await axios.get(`${BASE_URL}/subject/${id}/refs`)
+    const response = await axios.get(`/subject/${id}/refs`)
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar referências do registro: ${getErrorMessage(err)}`)
