@@ -1,12 +1,11 @@
 import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useRouter } from 'next/router'
 
 import { NextPage } from 'next'
 import { UserForLogin } from 'types/User'
-import { AuthenticateUserParams, authenticateUser } from 'auth'
 
 import { useApi } from 'hooks/use-api'
+import { loginUser } from 'api/auth'
 
 import Link from 'components/_core/Link'
 import {
@@ -21,17 +20,13 @@ import {
 } from '@chakra-ui/react'
 
 const LoginPage: NextPage = () => {
-  const router = useRouter()
-  const { isLoading, makeRequest } = useApi<string, AuthenticateUserParams>()
+  const { isLoading, makeRequest } = useApi<string, UserForLogin>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForLogin>()
 
   const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
     await makeRequest({
-      apiMethod: authenticateUser,
-      apiMethodArgs: {
-        ...data,
-        router,
-      },
+      apiMethod: loginUser,
+      apiMethodArgs: data,
       successMessage: `Usuário ${data.username} logado com sucesso.`,
       withRedirect: '/',
     })
