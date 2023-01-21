@@ -11,12 +11,20 @@ type UserForSignup = Omit<User, 'id'>
 
 type UserForSignupConfirmation = Pick<User, 'username'> & { code: string }
 
-type UserWithoutPassword = Omit<User, 'password'>
+type UserForResendCode = Pick<User, 'username'>
+
+type UserFromLogin =
+  Pick<User, 'id' | 'username' | 'email'> &
+  { jwtToken: string, email_verified: boolean }
+
+type UserFromSignup = Pick<User, 'id' | 'username' | 'email'>
 
 export type {
   User,
   UserForLogin,
   UserForSignup,
   UserForSignupConfirmation,
-  UserWithoutPassword,
+  UserForResendCode,
+  UserFromLogin,
+  UserFromSignup,
 }
