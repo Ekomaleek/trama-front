@@ -3,10 +3,14 @@ import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { GetServerSideProps, NextPage } from 'next'
-import { User, UserForSignupConfirmation } from 'types/User'
+import {
+  User,
+  UserForSignupConfirmation,
+  UserForResendCode,
+} from 'types/User'
 
 import { useApi } from 'hooks/use-api'
-import { confirmUserAccount, resendCode } from 'auth'
+import { confirmAccount, resendConfirmationCode } from 'api/auth'
 
 import { RepeatIcon } from '@chakra-ui/icons'
 import {
@@ -39,16 +43,21 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
   const {
     isLoading: isResendLoading,
     makeRequest: makeResendRequest,
-  } = useApi<string, Pick<User, 'username'>>()
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<AccountVerificationCode>()
+  } = useApi<string, UserForResendCode>()
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<AccountVerificationCode>()
   const CODE_LENGTH = 6
 
   const onSubmit: SubmitHandler<AccountVerificationCode> = async (data) => {
     await makeConfirmationRequest({
-      apiMethod: confirmUserAccount,
+      apiMethod: confirmAccount,
       apiMethodArgs: { ...data, username },
       successMessage: `O usuário ${username} foi confirmado com sucesso.`,
-      withRedirect: '/',
+      withRedirect: '/login',
     })
   }
 
@@ -58,7 +67,7 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
 
   const handleResendCode = async (): Promise<void> => {
     await makeResendRequest({
-      apiMethod: resendCode,
+      apiMethod: resendConfirmationCode,
       apiMethodArgs: { username },
       successMessage: 'O código foi enviado com sucesso.',
     })

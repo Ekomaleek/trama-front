@@ -2,10 +2,10 @@ import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { NextPage } from 'next'
-import { UserForSignup, UserWithoutPassword } from 'types/User'
+import { UserForSignup, UserFromSignup } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
-import { createUser } from 'auth'
+import { signupUser } from 'api/auth'
 
 import Link from 'components/_core/Link'
 import {
@@ -20,12 +20,12 @@ import {
 } from '@chakra-ui/react'
 
 const SignupPage: NextPage = () => {
-  const { isLoading, makeRequest } = useApi<UserWithoutPassword, UserForSignup>()
+  const { isLoading, makeRequest } = useApi<UserFromSignup, UserForSignup>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForSignup>()
 
   const onSubmit: SubmitHandler<UserForSignup> = async (data) => {
     await makeRequest({
-      apiMethod: createUser,
+      apiMethod: signupUser,
       apiMethodArgs: data,
       successMessage: `O usuário ${data.username} foi criado com sucesso.`,
       withRedirect: `/signup/account-verification?username=${data.username}&email=${data.email}`,
