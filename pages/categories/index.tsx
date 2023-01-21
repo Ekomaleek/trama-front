@@ -82,9 +82,9 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const categories = await getCategories()
+    const categories = await getCategories(req)
     return {
       props: {
         categories,

@@ -191,9 +191,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = context.params?.id ?? null
     if (id === null || Array.isArray(id)) throw new Error('404')
 
-    const record = await getRecordById(parseInt(id))
-    const categories = await getCategories()
-    const refs = await getRefsByRecordId(parseInt(id))
+    const record = await getRecordById(
+      { id: parseInt(id) },
+      context.req,
+    )
+    const categories = await getCategories(context.req)
+    const refs = await getRefsByRecordId(
+      { id: parseInt(id) },
+      context.req,
+    )
 
     return {
       props: {

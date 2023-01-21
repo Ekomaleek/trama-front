@@ -81,9 +81,9 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const records = await getRecords()
+    const records = await getRecords(req)
     return {
       props: {
         records,
