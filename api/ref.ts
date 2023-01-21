@@ -1,4 +1,5 @@
-import { customAxios as axios } from './'
+import { customAxios as axios, NextRequest } from './'
+
 import { getErrorMessage } from 'helpers'
 
 import {
@@ -6,47 +7,73 @@ import {
   RefForCreation,
   RefForUpdate,
   RefForDeletion,
+  RefId,
 } from 'types/Ref'
 
-const getRefById = async (id: Ref['id']): Promise<Ref> => {
+const getRefById = async (data: RefId, req: NextRequest): Promise<Ref> => {
+  const { id } = data
+
   try {
-    const response = await axios.get(`/refs/${id}`)
+    const response = await axios.get(
+      `/refs/${id}`,
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar a referência: ${getErrorMessage(err)}`)
   }
 }
 
-const getRefs = async (): Promise<Ref[]> => {
+const getRefs = async (req?: NextRequest): Promise<Ref[]> => {
   try {
-    const response = await axios.get('/refs')
+    const response = await axios.get(
+      '/refs',
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar referências: ${getErrorMessage(err)}`)
   }
 }
 
-const createRef = async ({ subject_id, content }: RefForCreation): Promise<Ref> => {
+const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> => {
+  const { subject_id, content } = data
+
   try {
-    const response = await axios.post('/refs/create', { subject_id, content })
+    const response = await axios.post(
+      '/refs/create',
+      { subject_id, content },
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao criar a referência: ${getErrorMessage(err)}`)
   }
 }
 
-const updateRef = async ({ id, content, subject_id }: RefForUpdate): Promise<Ref> => {
+const updateRef = async (data: RefForUpdate, req?: NextRequest): Promise<Ref> => {
+  const { id, content, subject_id } = data
+
   try {
-    const response = await axios.patch(`/refs/update/${id}`, { content, subject_id })
+    const response = await axios.patch(
+      `/refs/update/${id}`,
+      { content, subject_id },
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao atualizar a referência: ${getErrorMessage(err)}`)
   }
 }
 
-const removeRef = async ({ id }: RefForDeletion): Promise<Ref> => {
+const removeRef = async (data: RefForDeletion, req?: NextRequest): Promise<Ref> => {
+  const { id } = data
+
   try {
-    const response = await axios.delete(`/refs/remove/${id}`)
+    const response = await axios.delete(
+      `/refs/remove/${id}`,
+      { headers: { Cookie: req?.headers.cookie } }
+    )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao remover a referência: ${getErrorMessage(err)}`)
