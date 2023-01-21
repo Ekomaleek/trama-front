@@ -11,7 +11,7 @@ import {
   UserForLogin,
   UserForSignup,
   UserForSignupConfirmation,
-  UserWithoutPassword,
+  UserFromSignup,
 } from 'types/User'
 
 const userPool = new CognitoUserPool({
@@ -19,7 +19,7 @@ const userPool = new CognitoUserPool({
   UserPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
 })
 
-const createUser = async (userData: UserForSignup): Promise<UserWithoutPassword> => {
+const createUser = async (userData: UserForSignup): Promise<UserFromSignup> => {
   const userAttributes: CognitoUserAttribute[] = []
   const userEmail = new CognitoUserAttribute({
     Name: 'email',
