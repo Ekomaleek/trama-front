@@ -14,10 +14,13 @@ type RefForUserUpdate = Pick<Ref, 'content'>
 
 type RefForDeletion = Pick<Ref, 'id'>
 
+type RefId = Pick<Ref, 'id'>
+
 export type {
   Ref,
   RefForCreation,
   RefForUpdate,
   RefForUserUpdate,
   RefForDeletion,
+  RefId,
 }
