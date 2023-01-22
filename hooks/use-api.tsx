@@ -13,8 +13,8 @@ type UseApi<Resource, Data> = {
     apiMethodArgs: Data
     successMessage: string
     withRedirect?: string | 'back'
-    successCallback?: () => any
-    errorCallback?: () => any
+    successCallback?: (response: Resource) => any
+    errorCallback?: (error: any) => any
     finallyCallback?: () => any
   }) => Promise<void>
 }
@@ -47,7 +47,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
           ? router.back()
           : await router.push(withRedirect)
       }
-      successCallback?.()
+      successCallback?.(response)
 
       toast({
         title: 'Tudo certo!',
@@ -57,7 +57,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
       })
     } catch (err) {
       setError(getErrorMessage(err))
-      errorCallback?.()
+      errorCallback?.(err)
 
       toast({
         title: 'Ops! Algo deu errado.',
