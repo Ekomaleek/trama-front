@@ -3,9 +3,10 @@ import { Roboto_Slab, Fira_Sans } from '@next/font/google'
 
 import type { AppProps } from 'next/app'
 
-import Layout from 'components/Layout'
-
 import theme from 'theme'
+import { UserProvider } from 'context/user'
+
+import Layout from 'components/Layout'
 
 export const robotoSlab = Roboto_Slab({
   weight: ['300', '400', '700'],
@@ -19,9 +20,11 @@ export const firaSans = Fira_Sans({
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <ChakraProvider theme={extendTheme(theme)}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <UserProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserProvider>
     </ChakraProvider>
   )
 }
