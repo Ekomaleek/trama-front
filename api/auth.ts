@@ -7,6 +7,7 @@ import {
   UserFromSignup,
   UserForSignupConfirmation,
   UserForResendCode,
+  UserFromGetUser,
 } from 'types/User'
 
 import { getErrorMessage } from 'helpers'
@@ -63,9 +64,30 @@ const resendConfirmationCode = async (userData: UserForResendCode): Promise<stri
   }
 }
 
+const getCurrentUser = async (): Promise<UserFromGetUser> => {
+  try {
+    const response = await axios.get('/auth/user')
+    return response.data === ''
+      ? null
+      : response.data
+  } catch (err) {
+    throw new Error(`Erro ao buscar usuário atual: ${getErrorMessage(err)}`)
+  }
+}
+
+const logoutUser = async (): Promise<void> => {
+  try {
+    await axios.get('/auth/logout')
+  } catch (err) {
+    throw new Error(`Erro no logoff: ${getErrorMessage(err)}`)
+  }
+}
+
 export {
   loginUser,
   signupUser,
   confirmAccount,
   resendConfirmationCode,
+  getCurrentUser,
+  logoutUser,
 }
