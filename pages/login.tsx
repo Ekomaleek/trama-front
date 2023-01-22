@@ -5,6 +5,7 @@ import { NextPage } from 'next'
 import { UserForLogin, UserFromLogin } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
+import { useUser } from 'context/user'
 import { loginUser } from 'api/auth'
 
 import Link from 'components/_core/Link'
@@ -22,6 +23,15 @@ import {
 const LoginPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<UserFromLogin, UserForLogin>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForLogin>()
+  const { setUser } = useUser()
+
+  const loginSucessCallback = (response: UserFromLogin): void => {
+    setUser({
+      id: response.id,
+      username: response.username,
+      email: response.email,
+    })
+  }
 
   const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
     await makeRequest({
@@ -29,6 +39,7 @@ const LoginPage: NextPage = () => {
       apiMethodArgs: data,
       successMessage: `Usuário ${data.username} logado com sucesso.`,
       withRedirect: '/',
+      successCallback: loginSucessCallback,
     })
   }
 
