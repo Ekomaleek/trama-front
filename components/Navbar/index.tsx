@@ -1,26 +1,38 @@
 import { useState } from 'react'
 
+import { useUser } from 'context/user'
 import navLinks from 'helpers/nav-links'
 import { breakpoints } from 'theme'
 
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import { Flex, IconButton, useMediaQuery } from '@chakra-ui/react'
+import {
+  useMediaQuery,
+  Flex,
+  IconButton,
+  Box,
+} from '@chakra-ui/react'
 import NavbarLink from 'components/_core/NavbarLink'
+import UserMenu from './UserMenu'
 
 const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
 
   const toggleMenu = (): void => {
     setIsOpen(isOpen => !isOpen)
   }
 
-  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
+  const { user } = useUser()
+  const navlinksToRender = user === null
+    ? [...navLinks.allUsers, ...navLinks.notLoggedInUsers]
+    : [...navLinks.allUsers, ...navLinks.loggedInUsers]
 
   return (
     <Flex
       as='header'
       pos='fixed'
       alignItems='center'
+      justifyContent='space-between'
       h='navbarHeight'
       w='100%'
       p='8'
@@ -33,20 +45,22 @@ const Navbar = (): JSX.Element => {
         aria-label='Abrir menu de navegação'
         icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
         onClick={toggleMenu}
-        display={isDesktop ? 'none' : 'block'}
+        display={{ base: 'block', md: 'none' }}
         size='sm'
       />
 
       {isDesktop &&
-        navLinks.map(navLink =>
-          <NavbarLink
-            key={navLink.id}
-            href={navLink.url}
-            mr='4'
-          >
-            {navLink.name}
-          </NavbarLink>
-        )
+        <Box>
+          {navlinksToRender.map(navLink =>
+            <NavbarLink
+              key={navLink.id}
+              href={navLink.url}
+              mr='4'
+            >
+              {navLink.name}
+            </NavbarLink>
+          )}
+        </Box>
       }
 
       {!isDesktop &&
@@ -64,7 +78,7 @@ const Navbar = (): JSX.Element => {
           transitionProperty='margin-left'
           transitionDuration='normal'
         >
-          {navLinks.map(navLink =>
+          {navlinksToRender.map(navLink =>
             <NavbarLink
               key={navLink.id}
               href={navLink.url}
@@ -76,6 +90,8 @@ const Navbar = (): JSX.Element => {
           )}
         </Flex>
       }
+
+      <UserMenu user={user} />
     </Flex>
   )
 }

@@ -19,6 +19,8 @@ type UserFromLogin =
 
 type UserFromSignup = Pick<User, 'id' | 'username' | 'email'>
 
+type UserFromGetUser = Omit<User, 'password'> | null
+
 export type {
   User,
   UserForLogin,
@@ -27,4 +29,5 @@ export type {
   UserForResendCode,
   UserFromLogin,
   UserFromSignup,
+  UserFromGetUser,
 }

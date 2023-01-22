@@ -34,3 +34,4 @@ const getCurrentScope = (pathname: string): RouteScopedFor | null => {
 }
 
 export { getCurrentScope }
+export type { RouteScopedFor }
