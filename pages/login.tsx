@@ -26,11 +26,8 @@ const LoginPage: NextPage = () => {
   const { setUser } = useUser()
 
   const loginSucessCallback = (response: UserFromLogin): void => {
-    setUser({
-      id: response.id,
-      username: response.username,
-      email: response.email,
-    })
+    const { id, username, email } = response
+    setUser({ id, username, email })
   }
 
   const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
