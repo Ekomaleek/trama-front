@@ -1,4 +1,5 @@
-import { customAxios as axios } from './'
+import Router from 'next/router'
+import axiosDefaultClient from 'axios'
 
 import {
   UserForLogin,
@@ -10,6 +11,7 @@ import {
   UserFromGetUser,
 } from 'types/User'
 
+import { customAxios as axios } from './'
 import { getErrorMessage } from 'helpers'
 
 const loginUser = async (userData: UserForLogin): Promise<UserFromLogin> => {
@@ -20,6 +22,12 @@ const loginUser = async (userData: UserForLogin): Promise<UserFromLogin> => {
     )
     return response.data
   } catch (err) {
+    if (axiosDefaultClient.isAxiosError(err)) {
+      err.response?.data.error === 'User is not confirmed.' &&
+      Router.push(`/signup/account-verification?username=${userData.username}`)
+
+      throw new Error('Usuário não confirmado! Redirecionando...')
+    }
     throw new Error(`Erro ao logar: ${getErrorMessage(err)}`)
   }
 }
