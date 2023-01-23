@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import { NextPage } from 'next'
 import { UserForSignup, UserFromSignup } from 'types/User'
+import { userSchema } from 'types/schema/user'
 
 import { useApi } from 'hooks/use-api'
 import { signupUser } from 'api/auth'
@@ -21,7 +23,15 @@ import {
 
 const SignupPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<UserFromSignup, UserForSignup>()
-  const { register, handleSubmit, formState: { errors } } = useForm<UserForSignup>()
+  const { register, handleSubmit, formState: { errors } } = useForm<UserForSignup>({
+    resolver: yupResolver(
+      userSchema.pick([
+        'username',
+        'email',
+        'password',
+      ])
+    ),
+  })
 
   const onSubmit: SubmitHandler<UserForSignup> = async (data) => {
     await makeRequest({

@@ -1,9 +1,6 @@
-type User = {
-  id: string
-  username: string
-  email: string
-  password: string
-}
+import { UserFromSchema } from './schema/user'
+
+type User = UserFromSchema
 
 type UserForLogin = Pick<User, 'username' | 'password'>
 
