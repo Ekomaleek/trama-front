@@ -135,7 +135,7 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
                 onClick={() => append({
                   id: 0,
                   content: '',
-                  subject_id: record.id,
+                  record_id: record.id,
                 })}
               />
             </Box>
