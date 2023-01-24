@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { NextPage } from 'next'
 import { UserForSignup, UserFromSignup } from 'types/User'
-import { userSchema } from 'types/schema/user'
 
 import { useApi } from 'hooks/use-api'
 import { signupUser } from 'api/auth'
+import { userForSignupSchema } from 'helpers/input-validation/schemas/user'
 
 import Link from 'components/_core/Link'
 import {
@@ -24,13 +24,7 @@ import {
 const SignupPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<UserFromSignup, UserForSignup>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForSignup>({
-    resolver: yupResolver(
-      userSchema.pick([
-        'username',
-        'email',
-        'password',
-      ])
-    ),
+    resolver: yupResolver(userForSignupSchema),
   })
 
   const onSubmit: SubmitHandler<UserForSignup> = async (data) => {
@@ -68,7 +62,7 @@ const SignupPage: NextPage = () => {
             <Input
               type='text'
               placeholder='Nome de usuário'
-              {...register('username', { required: 'O campo nome de usuário é obrigatório.' })}
+              {...register('username')}
             />
             <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
           </FormControl>
@@ -82,7 +76,7 @@ const SignupPage: NextPage = () => {
             <Input
               type='text'
               placeholder='Seu e-mail'
-              {...register('email', { required: 'O campo e-mail é obrigatório.' })}
+              {...register('email')}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
