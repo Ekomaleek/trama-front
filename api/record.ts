@@ -119,7 +119,7 @@ const createRecordWithRefs = async (data: RecordForCreationWithRefs, req?: NextR
 
     await Promise.all(refs.map(async ref =>
       await createRef({
-        subject_id: record.id,
+        record_id: record.id,
         content: ref.content,
       })
     ))
@@ -160,7 +160,7 @@ const updateRecordWithRefs = async (data: RecordForUpdateWithRefs, req?: NextReq
         await updateRef(
           {
             id: ref.id,
-            subject_id: id,
+            record_id: id,
             content: ref.content,
           },
           req
@@ -192,7 +192,7 @@ const updateRecordWithRefs = async (data: RecordForUpdateWithRefs, req?: NextReq
         await createRef(
           {
             content: ref.content,
-            subject_id: id,
+            record_id: id,
           },
           req
         )

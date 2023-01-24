@@ -2,7 +2,7 @@ import { RefFromSchema } from 'helpers/input-validation/schemas/ref'
 
 type Ref = RefFromSchema
 
-type RefForCreation = Pick<Ref, 'content' | 'subject_id'>
+type RefForCreation = Pick<Ref, 'content' | 'record_id'>
 
 type RefForUpdate = Ref
 

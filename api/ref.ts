@@ -37,12 +37,12 @@ const getRefs = async (req?: NextRequest): Promise<Ref[]> => {
 }
 
 const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> => {
-  const { subject_id, content } = data
+  const { record_id, content } = data
 
   try {
     const response = await axios.post(
       '/refs/create',
-      { subject_id, content },
+      { record_id, content },
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -52,12 +52,12 @@ const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> 
 }
 
 const updateRef = async (data: RefForUpdate, req?: NextRequest): Promise<Ref> => {
-  const { id, content, subject_id } = data
+  const { id, content, record_id } = data
 
   try {
     const response = await axios.patch(
       `/refs/update/${id}`,
-      { content, subject_id },
+      { content, record_id },
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data

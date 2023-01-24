@@ -5,13 +5,13 @@ const refSchema = object({
     .required(),
   content: string()
     .required('O conteúdo da referência é obrigatório.'),
-  subject_id: number()
+  record_id: number()
     .required(),
 })
 
 const refForCreationSchema = refSchema.pick([
   'content',
-  'subject_id',
+  'record_id',
 ])
 
 const refForUserUpdateSchema = refSchema.pick(['content'])

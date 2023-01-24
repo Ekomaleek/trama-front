@@ -43,7 +43,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
     resolver: yupResolver(recordForCreationWithRefsSchema),
     defaultValues: {
       category_id,
-      refs: [{ content: '', subject_id: 0 }],
+      refs: [{ content: '', record_id: 0 }],
     },
   })
 
@@ -118,7 +118,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
                 aria-label='Adicionar referência'
                 size='xs'
                 onClick={() => append({
-                  subject_id: 0,
+                  record_id: 0,
                   content: '',
                 })}
               />
