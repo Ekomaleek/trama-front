@@ -19,7 +19,7 @@ const getRecordById = async (data: RecordId, req?: NextRequest): Promise<Record>
 
   try {
     const response = await axios.get(
-      `/subject/${id}`,
+      `/record/${id}`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -31,7 +31,7 @@ const getRecordById = async (data: RecordId, req?: NextRequest): Promise<Record>
 const getRecords = async (req?: NextRequest): Promise<Record[]> => {
   try {
     const response = await axios.get(
-      '/subject',
+      '/record',
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -45,7 +45,7 @@ const createRecord = async (data: RecordForCreation, req?: NextRequest): Promise
 
   try {
     const response = await axios.post(
-      '/subject/create',
+      '/record/create',
       { name, description, category_id },
       { headers: { Cookie: req?.headers.cookie } }
     )
@@ -65,7 +65,7 @@ const updateRecord = async (data: RecordForUpdate, req?: NextRequest): Promise<R
 
   try {
     const response = await axios.patch(
-      `/subject/update/${id}`,
+      `/record/update/${id}`,
       { name, description, category_id },
       { headers: { Cookie: req?.headers.cookie } }
     )
@@ -80,7 +80,7 @@ const removeRecord = async (data: RecordForDeletion, req?: NextRequest): Promise
 
   try {
     const response = await axios.delete(
-      `/subject/remove/${id}`,
+      `/record/remove/${id}`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -94,7 +94,7 @@ const getRefsByRecordId = async (data: RecordId, req?: NextRequest): Promise<Ref
 
   try {
     const response = await axios.get(
-      `/subject/${id}/refs`,
+      `/record/${id}/refs`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
