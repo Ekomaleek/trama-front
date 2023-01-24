@@ -1,10 +1,6 @@
-import { Record } from './Record'
+import { RefFromSchema } from 'helpers/input-validation/schemas/ref'
 
-type Ref = {
-  id: number
-  content: string
-  subject_id: Record['id']
-}
+type Ref = RefFromSchema
 
 type RefForCreation = Pick<Ref, 'content' | 'subject_id'>
 

@@ -20,15 +20,12 @@ const userForLoginSchema = userSchema.pick(['username', 'password'])
 
 const userForSignupSchema = userSchema.omit(['id'])
 
+const CODE_LENGTH = 6
 const confirmationCodeSchema = object({
   code: string()
     .required('O código é obrigatório.')
-    .length(6, 'Código em formato inválido.'),
+    .length(CODE_LENGTH, 'Código em formato inválido.'),
 })
-const userForSignupConfirmationSchema = userSchema
-  .pick(['username'])
-  .concat(confirmationCodeSchema)
-
 type UserFromSchema = InferType<typeof userSchema>
 
 export type { UserFromSchema }
@@ -36,5 +33,6 @@ export {
   userSchema,
   userForLoginSchema,
   userForSignupSchema,
-  userForSignupConfirmationSchema,
+  CODE_LENGTH,
+  confirmationCodeSchema,
 }

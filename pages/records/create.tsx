@@ -1,14 +1,16 @@
 import React from 'react'
 import Head from 'next/head'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
 
+import { Category } from 'types/Category'
 import { NextPage, GetServerSideProps } from 'next'
 import { Record, RecordForCreationWithRefs } from 'types/Record'
-import { Category } from 'types/Category'
 
+import { useApi } from 'hooks/use-api'
 import { getCategories } from 'api/category'
 import { createRecordWithRefs } from 'api/record'
-import { useApi } from 'hooks/use-api'
+import { recordForCreationWithRefsSchema } from 'helpers/input-validation/schemas/record'
 
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
@@ -38,6 +40,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
     handleSubmit,
     formState: { errors },
   } = useForm<RecordForCreationWithRefs>({
+    resolver: yupResolver(recordForCreationWithRefsSchema),
     defaultValues: {
       category_id,
       refs: [{ content: '', subject_id: 0 }],
@@ -50,10 +53,9 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
   })
 
   const onSubmit: SubmitHandler<RecordForCreationWithRefs> = async (data) => {
-    const nonEmptyRefs = data.refs.filter(ref => ref.content)
     await makeRequest({
       apiMethod: createRecordWithRefs,
-      apiMethodArgs: { ...data, refs: nonEmptyRefs },
+      apiMethodArgs: { ...data },
       successMessage: `O registro ${data.name} foi criado com sucesso.`,
       withRedirect: 'back',
     })
@@ -81,26 +83,20 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
             <Input
               type='text'
               placeholder='Nome do registro'
-              {...register(
-                'name',
-                { required: 'O campo nome é obrigatório.' }
-              )}
+              {...register('name')}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl
+            pt='4'
             isRequired
             isInvalid={errors.category_id !== undefined}
-            pt='4'
           >
             <FormLabel>Categoria</FormLabel>
             <Select
               placeholder='Escolha uma categoria'
-              {...register(
-                'category_id',
-                { required: 'O campo categoria é obrigatório.' }
-              )}
+              {...register('category_id')}
             >
               {categories.map(category =>
                 <option key={category.id} value={category.id}>
@@ -111,7 +107,10 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
             <FormErrorMessage>{errors.category_id?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl pt='4'>
+          <FormControl
+            pt='4'
+            isInvalid={errors.refs !== undefined}
+          >
             <Box display='flex'>
               <FormLabel>Referência(s)</FormLabel>
               <IconButton
@@ -134,8 +133,8 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
                   key={field.id}
                   type='text'
                   placeholder='Referência (artigo, documentação, material de estudo...)'
-                  {...register(`refs.${index}.content`)}
                   mt={index !== 0 ? '4' : '0'}
+                  {...register(`refs.${index}.content`)}
                 />
                 <IconButton
                   icon={<DeleteIcon />}
@@ -146,6 +145,7 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
                 />
               </Box>
             )}
+            <FormErrorMessage>Preencha referência(s) ou remova-a(s).</FormErrorMessage>
           </FormControl>
 
           <FormControl pt='4'>
