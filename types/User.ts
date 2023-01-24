@@ -1,5 +1,8 @@
-import { UserFromSchema } from './schema/user'
+import { UserFromSchema } from 'helpers/input-validation/schemas/user'
 
+// Base type is being imported from schema because
+// the opposite (defining a schema based on a type)
+// isn't working using yup's ObjectSchema.
 type User = UserFromSchema
 
 type UserForLogin = Pick<User, 'username' | 'password'>
