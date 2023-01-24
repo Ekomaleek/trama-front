@@ -1,12 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import { NextPage } from 'next'
 import { Category, CategoryForCreation } from 'types/Category'
 
-import { createCategory } from 'api/category'
 import { useApi } from 'hooks/use-api'
+import { createCategory } from 'api/category'
+import { categoryForCreationSchema } from 'helpers/input-validation/schemas/category'
 
 import {
   Container,
@@ -20,7 +22,9 @@ import {
 
 const CreateCategoryPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<Category, CategoryForCreation>()
-  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForCreation>()
+  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForCreation>({
+    resolver: yupResolver(categoryForCreationSchema),
+  })
 
   const onSubmit: SubmitHandler<CategoryForCreation> = async (data) => {
     await makeRequest({
@@ -50,7 +54,7 @@ const CreateCategoryPage: NextPage = () => {
             <Input
               type='text'
               placeholder='Nome da categoria'
-              {...register('name', { required: 'O campo nome é obrigatório.' })}
+              {...register('name')}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>

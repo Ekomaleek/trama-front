@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import { GetServerSideProps, NextPage } from 'next'
 import {
@@ -9,8 +10,9 @@ import {
   CategoryForUserUpdate,
 } from 'types/Category'
 
-import { updateCategory, getCategoryById } from 'api/category'
 import { useApi } from 'hooks/use-api'
+import { updateCategory, getCategoryById } from 'api/category'
+import { categoryForUserUpdateSchema } from 'helpers/input-validation/schemas/category'
 
 import {
   Container,
@@ -28,11 +30,9 @@ type UpdateCategoryPageProps = {
 
 const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => {
   const { isLoading, makeRequest } = useApi<Category, CategoryForUpdate>()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CategoryForUserUpdate>()
+  const { register, handleSubmit, formState: { errors } } = useForm<CategoryForUserUpdate>({
+    resolver: yupResolver(categoryForUserUpdateSchema),
+  })
 
   const onSubmit: SubmitHandler<CategoryForUserUpdate> = async (data) => {
     await makeRequest({
@@ -62,7 +62,7 @@ const UpdateCategoryPage: NextPage<UpdateCategoryPageProps> = ({ category }) => 
             <Input
               type='text'
               placeholder='Nome da categoria'
-              {...register('name', { required: 'O campo nome é obrigatório.' })}
+              {...register('name')}
               defaultValue={category.name}
             />
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
