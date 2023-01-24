@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { GetServerSideProps, NextPage } from 'next'
@@ -11,6 +12,7 @@ import {
 
 import { useApi } from 'hooks/use-api'
 import { confirmAccount, resendConfirmationCode } from 'api/auth'
+import { CODE_LENGTH, confirmationCodeSchema } from 'helpers/input-validation/schemas/user'
 
 import { RepeatIcon } from '@chakra-ui/icons'
 import {
@@ -49,8 +51,9 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<AccountVerificationCode>()
-  const CODE_LENGTH = 6
+  } = useForm<AccountVerificationCode>({
+    resolver: yupResolver(confirmationCodeSchema),
+  })
 
   const onSubmit: SubmitHandler<AccountVerificationCode> = async (data) => {
     await makeConfirmationRequest({
@@ -74,19 +77,7 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
   }
 
   useEffect(() => {
-    const errorMessage = 'Código inválido.'
-
-    register('code', {
-      required: errorMessage,
-      minLength: {
-        value: CODE_LENGTH,
-        message: errorMessage,
-      },
-      maxLength: {
-        value: CODE_LENGTH,
-        message: errorMessage,
-      },
-    })
+    register('code')
   }, [register])
 
   return (
