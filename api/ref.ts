@@ -15,7 +15,7 @@ const getRefById = async (data: RefId, req: NextRequest): Promise<Ref> => {
 
   try {
     const response = await axios.get(
-      `/refs/${id}`,
+      `/ref/${id}`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -27,7 +27,7 @@ const getRefById = async (data: RefId, req: NextRequest): Promise<Ref> => {
 const getRefs = async (req?: NextRequest): Promise<Ref[]> => {
   try {
     const response = await axios.get(
-      '/refs',
+      '/ref',
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
@@ -41,7 +41,7 @@ const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> 
 
   try {
     const response = await axios.post(
-      '/refs/create',
+      '/ref/create',
       { record_id, content },
       { headers: { Cookie: req?.headers.cookie } }
     )
@@ -56,7 +56,7 @@ const updateRef = async (data: RefForUpdate, req?: NextRequest): Promise<Ref> =>
 
   try {
     const response = await axios.patch(
-      `/refs/update/${id}`,
+      `/ref/update/${id}`,
       { content, record_id },
       { headers: { Cookie: req?.headers.cookie } }
     )
@@ -71,7 +71,7 @@ const removeRef = async (data: RefForDeletion, req?: NextRequest): Promise<Ref> 
 
   try {
     const response = await axios.delete(
-      `/refs/remove/${id}`,
+      `/ref/remove/${id}`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
