@@ -1,12 +1,7 @@
-import { Category } from './Category'
+import { RecordFromSchema } from 'helpers/input-validation/schemas/record'
 import { Ref, RefForCreation, RefForUpdate } from './Ref'
 
-type Record = {
-  id: number
-  name: string
-  description: string
-  category_id: Category['id']
-}
+type Record = RecordFromSchema
 
 type RecordForCreation = Pick<Record, 'name' | 'description' | 'category_id'>
 

@@ -1,8 +1,6 @@
-type Category = {
-  id: number
-  name: string
-  description: string
-}
+import { CategoryFromSchema } from 'helpers/input-validation/schemas/category'
+
+type Category = CategoryFromSchema
 
 type CategoryForCreation = Pick<Category, 'name' | 'description'>
 
