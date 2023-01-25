@@ -32,7 +32,7 @@ const SignupPage: NextPage = () => {
       apiMethod: signupUser,
       apiMethodArgs: data,
       successMessage: `O usuário ${data.username} foi criado com sucesso.`,
-      withRedirect: `/signup/account-verification?username=${data.username}&email=${data.email}`,
+      withRedirect: `/signup/account-confirmation?username=${data.username}&email=${data.email}`,
     })
   }
 

@@ -25,7 +25,7 @@ const loginUser = async (userData: UserForLogin): Promise<UserFromLogin> => {
     // TODO: move this to login error callback
     if (axiosDefaultClient.isAxiosError(err)) {
       if (err.response?.data.error === 'User is not confirmed.') {
-        void Router.push(`/signup/account-verification?username=${userData.username}`)
+        void Router.push(`/signup/account-confirmation?username=${userData.username}`)
         throw new Error('Usuário não confirmado! Redirecionando...')
       }
     }

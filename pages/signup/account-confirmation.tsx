@@ -28,16 +28,16 @@ import {
   Box,
 } from '@chakra-ui/react'
 
-type AccountVerificationCode = {
+type AccountConfirmationCode = {
   code: UserForSignupConfirmation['code']
 }
 
-type AccountVerificationPageProps = {
+type AccountConfirmationPageProps = {
   username: User['username']
   email: User['email']
 }
 
-const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ username, email }) => {
+const AccountConfirmationPage: NextPage<AccountConfirmationPageProps> = ({ username, email }) => {
   const {
     isLoading: isConfirmationLoading,
     makeRequest: makeConfirmationRequest,
@@ -51,11 +51,11 @@ const AccountVerificationPage: NextPage<AccountVerificationPageProps> = ({ usern
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<AccountVerificationCode>({
+  } = useForm<AccountConfirmationCode>({
     resolver: yupResolver(confirmationCodeSchema),
   })
 
-  const onSubmit: SubmitHandler<AccountVerificationCode> = async (data) => {
+  const onSubmit: SubmitHandler<AccountConfirmationCode> = async (data) => {
     await makeConfirmationRequest({
       apiMethod: confirmAccount,
       apiMethodArgs: { ...data, username },
@@ -154,4 +154,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default AccountVerificationPage
+export default AccountConfirmationPage
