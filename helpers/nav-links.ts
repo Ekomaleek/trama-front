@@ -26,7 +26,7 @@ const navLinks: NavLinks = {
     },
     {
       id: 7,
-      name: 'Signup',
+      name: 'Cadastro',
       url: '/signup',
     },
   ],
