@@ -6,7 +6,12 @@ import { breakpoints } from 'theme'
 
 import LogoIcon from 'components/LogoIcon'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import { useMediaQuery, Flex, IconButton } from '@chakra-ui/react'
+import {
+  useMediaQuery,
+  Flex,
+  IconButton,
+  Box,
+} from '@chakra-ui/react'
 import NavbarLink from 'components/_core/NavbarLink'
 import UserMenu from './UserMenu'
 
@@ -94,20 +99,28 @@ const Navbar = (): JSX.Element => {
       }
 
       {isDesktop &&
-        <Flex alignItems='center'>
-          {navlinksToRender.map(navLink =>
-            <NavbarLink
-              key={navLink.id}
-              href={navLink.url}
-              mr='4'
-            >
-              {
-                navLink.url === '/'
-                  ? <LogoIcon />
-                  : navLink.name
-              }
-            </NavbarLink>
-          )}
+        <Flex
+          alignItems='center'
+          justifyContent='space-between'
+          width='100%'
+        >
+          <Box>
+            {navlinksToRender.map(navLink =>
+              <NavbarLink
+                key={navLink.id}
+                href={navLink.url}
+                mr='4'
+              >
+                {
+                  navLink.url === '/'
+                    ? <LogoIcon />
+                    : navLink.name
+                }
+              </NavbarLink>
+            )}
+          </Box>
+
+          <UserMenu user={user} />
         </Flex>
       }
     </Flex>
