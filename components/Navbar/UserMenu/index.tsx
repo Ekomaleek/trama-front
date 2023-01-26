@@ -4,6 +4,7 @@ import { useApi } from 'hooks/use-api'
 import { useUser } from 'context/user'
 import { logoutUser } from 'api/auth'
 
+import NextLink from 'next/link'
 import { AtSignIcon, InfoIcon, MinusIcon } from '@chakra-ui/icons'
 import {
   IconButton,
@@ -41,9 +42,11 @@ const UserMenu = ({ user }: UserMenuProps): JSX.Element => {
         display={user === null ? 'none' : 'block'}
       />
       <MenuList>
-        <MenuItem icon={<InfoIcon />}>
-          Ver perfil
-        </MenuItem>
+        <NextLink href='/profile'>
+          <MenuItem icon={<InfoIcon />}>
+            Ver perfil
+          </MenuItem>
+        </NextLink>
 
         <MenuItem icon={<MinusIcon />} onClick={handleLogout}>
           Logout
