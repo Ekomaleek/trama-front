@@ -9,6 +9,8 @@ import {
   UserForSignupConfirmation,
   UserForResendCode,
   UserFromGetUser,
+  UserForForgotPassword,
+  UserForConfirmNewPassword,
 } from 'types/User'
 
 import { customAxios as axios } from './'
@@ -93,6 +95,34 @@ const logoutUser = async (): Promise<void> => {
   }
 }
 
+const forgotPassword = async (userData: UserForForgotPassword): Promise<string> => {
+  const { username } = userData
+
+  try {
+    const response = await axios.post(
+      '/auth/forgot-password',
+      { username }
+    )
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao enviar código de recuperação de senha: ${getErrorMessage(err)}`)
+  }
+}
+
+const confirmNewPassword = async (userData: UserForConfirmNewPassword): Promise<string> => {
+  const { username, newPassword, code } = userData
+
+  try {
+    const response = await axios.post(
+      '/auth/confirm-new-password',
+      { username, newPassword, code }
+    )
+    return response.data
+  } catch (err) {
+    throw new Error(`Erro ao confirmar nova senha: ${getErrorMessage(err)}`)
+  }
+}
+
 export {
   loginUser,
   signupUser,
@@ -100,4 +130,6 @@ export {
   resendConfirmationCode,
   getCurrentUser,
   logoutUser,
+  forgotPassword,
+  confirmNewPassword,
 }
