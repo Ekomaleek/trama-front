@@ -1,4 +1,4 @@
-import { object, string, InferType } from 'yup'
+import { object, string, ref, InferType } from 'yup'
 import { passwordRegex, passwordErrorMessage } from 'helpers/input-validation'
 
 const userSchema = object({
@@ -27,6 +27,17 @@ const confirmationCodeSchema = object({
     .length(CODE_LENGTH, 'Código em formato inválido.'),
 })
 
+const userForForgotPasswordSchema = userSchema.pick(['username'])
+
+const userForConfirmNewPasswordSchema = userSchema.pick(['username'])
+  .concat(object({
+    newPassword: userSchema.fields.password,
+    confirmNewPassword: string()
+      .required('A confirmação de senha é obrigatória.')
+      .oneOf([ref('newPassword')], 'As senhas devem ser iguais.'),
+    code: confirmationCodeSchema.fields.code,
+  }))
+
 type UserFromSchema = InferType<typeof userSchema>
 
 export type { UserFromSchema }
@@ -36,4 +47,6 @@ export {
   userForSignupSchema,
   CODE_LENGTH,
   confirmationCodeSchema,
+  userForForgotPasswordSchema,
+  userForConfirmNewPasswordSchema,
 }

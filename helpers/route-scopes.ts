@@ -12,6 +12,8 @@ const routeScopes: RouteScopes = {
   notLoggedInUsers: [
     '/signup',
     '/login',
+    '/forgot-password',
+    '/forgot-password/confirm-new-password',
   ],
   loggedInUsers: [
     '/categories',
