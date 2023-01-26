@@ -19,6 +19,7 @@ const routeScopes: RouteScopes = {
     '/categories',
     '/records',
     '/dashboard',
+    '/profile',
   ],
 }
 
