@@ -21,6 +21,14 @@ type UserFromSignup = Pick<User, 'id' | 'username' | 'email'>
 
 type UserFromGetUser = Omit<User, 'password'> | null
 
+type UserForForgotPassword = Pick<User, 'username'>
+
+type UserForConfirmNewPassword = Pick<User, 'username'> & {
+  newPassword: User['password']
+  confirmNewPassword: UserForConfirmNewPassword['newPassword']
+  code: string
+}
+
 export type {
   User,
   UserForLogin,
@@ -30,4 +38,6 @@ export type {
   UserFromLogin,
   UserFromSignup,
   UserFromGetUser,
+  UserForForgotPassword,
+  UserForConfirmNewPassword,
 }
