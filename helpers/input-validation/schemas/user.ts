@@ -26,6 +26,7 @@ const confirmationCodeSchema = object({
     .required('O código é obrigatório.')
     .length(CODE_LENGTH, 'Código em formato inválido.'),
 })
+
 type UserFromSchema = InferType<typeof userSchema>
 
 export type { UserFromSchema }
