@@ -18,6 +18,7 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  Box,
 } from '@chakra-ui/react'
 
 const LoginPage: NextPage = () => {
@@ -94,6 +95,12 @@ const LoginPage: NextPage = () => {
             Conectar
           </Button>
         </form>
+
+        <Box pt='4' textAlign='center'>
+          <Link href='/forgot-password'>
+            Esqueci minha senha
+          </Link>
+        </Box>
       </Container>
     </>
   )
