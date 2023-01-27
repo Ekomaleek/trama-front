@@ -19,7 +19,7 @@ import {
 
 type RecordsPageProps = {
   records: Record[]
-  error: string
+  error?: string
 }
 
 const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
@@ -49,7 +49,7 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
         </Box>
 
         {
-          error !== '' &&
+          error !== undefined &&
           <Text textAlign='center' fontSize='xl' fontWeight='bold' color='red.500'>
             Ocorreu um erro ao buscar seus registros:<br />
             {error}
@@ -58,7 +58,7 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
 
         {
           records.length === 0 &&
-          error === '' &&
+          error === undefined &&
           <Text textAlign='center' fontSize='xl' fontWeight='500'>
             Você ainda não tem nenhum registro cadastrado.
           </Text>
@@ -87,7 +87,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     return {
       props: {
         records,
-        error: '',
       },
     }
   } catch (err) {
