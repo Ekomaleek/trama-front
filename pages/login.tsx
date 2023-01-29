@@ -46,7 +46,6 @@ const LoginPage: NextPage = () => {
       <Head>
         <title>Trama - Login</title>
         <meta name='description' content='Trama - Página de login' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

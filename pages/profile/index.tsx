@@ -18,7 +18,6 @@ const ProfilePage: NextPage = () => {
       <Head>
         <title>Trama - Perfil</title>
         <meta name='description' content='Trama - página de perfil de usuário' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>

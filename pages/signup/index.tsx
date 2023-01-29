@@ -41,7 +41,6 @@ const SignupPage: NextPage = () => {
       <Head>
         <title>Trama - Signup</title>
         <meta name='description' content='Trama - Página de criação de usuário' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

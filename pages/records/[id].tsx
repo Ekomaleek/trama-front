@@ -47,7 +47,6 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
       <Head>
         <title>Trama - Visualizar registro</title>
         <meta name='description' content='Visualizar registro' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

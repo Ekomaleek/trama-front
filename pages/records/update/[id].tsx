@@ -81,7 +81,6 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
       <Head>
         <title>Trama - Editar registro</title>
         <meta name='description' content='Editar registro' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

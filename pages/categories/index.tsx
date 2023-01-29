@@ -28,7 +28,6 @@ const CategoriesPage: NextPage<CategoriesPageProps> = ({ categories, error }) =>
       <Head>
         <title>Trama - Categorias</title>
         <meta name='description' content='Trama - Categorias de usuário' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>
