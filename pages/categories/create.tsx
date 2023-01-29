@@ -40,7 +40,6 @@ const CreateCategoryPage: NextPage = () => {
       <Head>
         <title>Trama - Criar categoria</title>
         <meta name='description' content='Criar categoria' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

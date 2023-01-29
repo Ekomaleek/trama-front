@@ -47,7 +47,6 @@ const ConfirmNewPasswordPage: NextPage<ConfirmNewPasswordPageProps> = ({ usernam
       <Head>
         <title>Trama - Confirmar nova senha</title>
         <meta name='description' content='Trama - Página de confirmação de nova senha' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

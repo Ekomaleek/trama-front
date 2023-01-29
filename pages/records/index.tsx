@@ -28,7 +28,6 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
       <Head>
         <title>Trama - Registros</title>
         <meta name='description' content='Trama - Registros de usuário' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>

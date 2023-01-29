@@ -40,7 +40,6 @@ const ForgotPasswordPage: NextPage = () => {
       <Head>
         <title>Trama - Recuperação de senha</title>
         <meta name='description' content='Trama - Página de recuperação de senha' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

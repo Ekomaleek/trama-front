@@ -44,7 +44,6 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
       <Head>
         <title>Trama - Categoria</title>
         <meta name='description' content='Trama - Categoria de usuário' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>

@@ -11,7 +11,6 @@ const Page404: NextPage = () => {
       <Head>
         <title>Trama - 404</title>
         <meta name='description' content='Trama - 404' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container maxW='100%'>

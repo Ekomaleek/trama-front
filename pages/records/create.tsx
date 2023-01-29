@@ -66,7 +66,6 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
       <Head>
         <title>Trama - Criar registro</title>
         <meta name='description' content='Criar registro' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

@@ -85,7 +85,6 @@ const AccountConfirmationPage: NextPage<AccountConfirmationPageProps> = ({ usern
       <Head>
         <title>Trama - Confirmação de nvoa conta</title>
         <meta name='description' content='Trama - Página de confirmação de nova conta' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Container>

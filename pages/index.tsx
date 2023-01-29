@@ -16,8 +16,7 @@ const HomePage: NextPage = () => {
     <>
       <Head>
         <title>Trama</title>
-        <meta name='description' content='Planeje, registre, evolua' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name='description' content='Trama - página inicial' />
       </Head>
 
       <Container maxW='100%'>
@@ -25,19 +24,12 @@ const HomePage: NextPage = () => {
           Trama
         </Heading>
 
-        <Heading size='md' textAlign='center' pt='2'>
-          Planeje, registre, evolua
-        </Heading>
-
-        <Text textAlign='center' pt='8'>
+        <Text textAlign='center' py='8'>
           Trama é uma plataforma para você catalogar e consultar seus estudos.<br />
-          Comece criando categorias e, então, adicione registros à elas.
+          Crie uma nova conta ou entre com uma já existente:
         </Text>
 
-        <Flex
-          justifyContent='center'
-          pt='8'
-        >
+        <Flex justifyContent='center'>
           <NextLink href='/signup'>
             <Button mr='4'>
               Criar conta
