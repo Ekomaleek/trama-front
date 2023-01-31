@@ -11,6 +11,7 @@ import { getRecordById, getRefsByRecordId, removeRecord } from 'api/record'
 import { useApi } from 'hooks/use-api'
 
 import NextLink from 'next/link'
+import Link from 'components/_core/Link'
 import Dialog from 'components/Dialog'
 import {
   Container,
@@ -55,22 +56,10 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
         </Heading>
 
         <Heading size='md' textAlign='center' pt='4'>
-          {category.name}
+          <Link href={`/categories/${category.id}`}>
+            {category.name}
+          </Link>
         </Heading>
-
-        <Flex
-          pt='8'
-          justifyContent='center'
-        >
-          <NextLink href={`/records/update/${record.id}`}>
-            <Button mr='4'>
-              Editar
-            </Button>
-          </NextLink>
-          <Button colorScheme='red' onClick={onOpen}>
-            Remover
-          </Button>
-        </Flex>
 
         <Box pt='8'>
           {refs.map(ref =>
@@ -85,9 +74,23 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
           )}
         </Box>
 
-        <Text textAlign='center' pt='8'>
+        <Text pt='8'>
           {record.description}
         </Text>
+
+        <Flex
+          pt='8'
+          justifyContent='center'
+        >
+          <NextLink href={`/records/update/${record.id}`}>
+            <Button mr='4'>
+              Editar
+            </Button>
+          </NextLink>
+          <Button colorScheme='red' onClick={onOpen}>
+            Remover
+          </Button>
+        </Flex>
 
         <Dialog
           isOpen={isOpen}
