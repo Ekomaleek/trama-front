@@ -2,25 +2,28 @@ import Head from 'next/head'
 import { GetServerSideProps, NextPage } from 'next'
 
 import { Record } from 'types/Record'
+import { Category } from 'types/Category'
 
 import { getRecords } from 'api/record'
+import { getCategoriesByRecords } from 'api/category'
 import { getErrorMessage } from 'helpers'
 import { useUser } from 'context/user'
 
+import RecordCard from 'components/Card/Record'
 import {
   Container,
   Heading,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
-import RecordCard from 'components/Card/Record'
 
 type DashboardPageProps = {
   records: Record[]
+  categories: Category[]
   error?: string
 }
 
-const DashboardPage: NextPage<DashboardPageProps> = ({ records, error }) => {
+const DashboardPage: NextPage<DashboardPageProps> = ({ records, categories, error }) => {
   const { user } = useUser()
 
   return (
@@ -80,6 +83,9 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ records, error }) => {
             <RecordCard
               key={record.id}
               record={record}
+              category={categories.find(category =>
+                category.id === record.category_id
+              )}
               redirectOnRemoval='/dashboard'
             />
           )}
@@ -92,16 +98,19 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ records, error }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const records = await getRecords(req)
+    const categories = await getCategoriesByRecords({ records }, req)
 
     return {
       props: {
         records,
+        categories,
       },
     }
   } catch (err) {
     return {
       props: {
         records: [],
+        categories: [],
         error: getErrorMessage(err),
       },
     }
