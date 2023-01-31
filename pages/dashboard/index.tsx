@@ -9,6 +9,7 @@ import { getCategoriesByRecords } from 'api/category'
 import { getErrorMessage } from 'helpers'
 import { useUser } from 'context/user'
 
+import Link from 'components/_core/Link'
 import RecordCard from 'components/Card/Record'
 import {
   Container,
@@ -69,7 +70,9 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ records, categories, erro
             fontWeight='300'
             pt='4'
           >
-            Você ainda não tem nenhum registro cadastrado.
+            Você ainda não tem nenhum registro cadastrado. <br />
+            Comece <Link href='/categories/create'>criando uma categoria</Link>. <br />
+            Se já tiver uma categoria cadastrada, <Link href='/records/create'>crie um registro</Link>.
           </Text>
         }
 

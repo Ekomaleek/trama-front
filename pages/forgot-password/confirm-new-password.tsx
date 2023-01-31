@@ -115,8 +115,8 @@ const ConfirmNewPasswordPage: NextPage<ConfirmNewPasswordPageProps> = ({ usernam
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const username = context.query?.username ?? null
-  if (username === null || Array.isArray(username)) return { notFound: true }
+  const username = context.query?.username
+  if (username === undefined) return { notFound: true }
 
   return {
     props: { username },
