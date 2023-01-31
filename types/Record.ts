@@ -19,6 +19,8 @@ type RecordForDeletion = Pick<Record, 'id'>
 
 type RecordId = Pick<Record, 'id'>
 
+type RecordForCategoriesByRecords = { records: Record[] }
+
 export type {
   Record,
   RecordForCreation,
@@ -29,4 +31,5 @@ export type {
   RecordForUserUpdateWithRefs,
   RecordForDeletion,
   RecordId,
+  RecordForCategoriesByRecords,
 }
