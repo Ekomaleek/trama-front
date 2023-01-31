@@ -2,8 +2,10 @@ import Head from 'next/head'
 
 import { NextPage, GetServerSideProps } from 'next'
 import { Record } from 'types/Record'
+import { Category } from 'types/Category'
 
 import { getRecords } from 'api/record'
+import { getCategoriesByRecords } from 'api/category'
 import { getErrorMessage } from 'helpers'
 
 import NextLink from 'next/link'
@@ -19,10 +21,11 @@ import {
 
 type RecordsPageProps = {
   records: Record[]
+  categories: Category[]
   error?: string
 }
 
-const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
+const RecordsPage: NextPage<RecordsPageProps> = ({ records, categories, error }) => {
   return (
     <>
       <Head>
@@ -72,6 +75,9 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
             <RecordCard
               key={record.id}
               record={record}
+              category={categories.find(category =>
+                category.id === record.category_id
+              )}
             />
           )}
         </SimpleGrid>
@@ -83,15 +89,19 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, error }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
     const records = await getRecords(req)
+    const categories = await getCategoriesByRecords({ records }, req)
+
     return {
       props: {
         records,
+        categories,
       },
     }
   } catch (err) {
     return {
       props: {
         records: [],
+        categories: [],
         error: getErrorMessage(err),
       },
     }

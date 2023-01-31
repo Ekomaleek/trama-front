@@ -1,6 +1,9 @@
 import { customAxios as axios, NextRequest } from './'
 
-import { Record } from 'types/Record'
+import {
+  Record,
+  RecordForCategoriesByRecords,
+} from 'types/Record'
 import {
   Category,
   CategoryId,
@@ -86,12 +89,31 @@ const getRecordsByCategoryId = async (data: CategoryId, req?: NextRequest): Prom
 
   try {
     const response = await axios.get(
-      `/category/${id}/subject`,
+      `/category/${id}/record`,
       { headers: { Cookie: req?.headers.cookie } }
     )
     return response.data
   } catch (err) {
     throw new Error(`Erro ao buscar os registros da categoria: ${getErrorMessage(err)}`)
+  }
+}
+
+const getCategoriesByRecords = async (data: RecordForCategoriesByRecords, req?: NextRequest): Promise<Category[]> => {
+  const { records } = data
+
+  try {
+    const categoryIds: Array<Category['id']> = records.map(record => record.category_id)
+    const uniqueCategoryIds = Array.from(new Set(categoryIds))
+
+    const categories = []
+    for (const categoryId of uniqueCategoryIds) {
+      const category = await getCategoryById({ id: categoryId }, req)
+      categories.push(category)
+    }
+
+    return categories
+  } catch (err) {
+    throw new Error(`Erro ao buscar categories: ${getErrorMessage(err)}`)
   }
 }
 
@@ -102,4 +124,5 @@ export {
   updateCategory,
   removeCategory,
   getRecordsByCategoryId,
+  getCategoriesByRecords,
 }

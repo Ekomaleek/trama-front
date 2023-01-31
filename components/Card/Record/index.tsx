@@ -2,11 +2,13 @@ import React from 'react'
 import NextLink from 'next/link'
 
 import { Record, RecordForDeletion } from 'types/Record'
+import { Category } from 'types/Category'
 
 import { useApi } from 'hooks/use-api'
 import { removeRecord } from 'api/record'
 
 import Dialog from 'components/Dialog'
+import Link from 'components/_core/Link'
 import { SettingsIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
   Card,
@@ -26,10 +28,11 @@ import {
 
 type RecordCardProps = {
   record: Record
+  category?: Category
   redirectOnRemoval?: string
 }
 
-const RecordCard = ({ record, redirectOnRemoval }: RecordCardProps): JSX.Element => {
+const RecordCard = ({ record, category, redirectOnRemoval }: RecordCardProps): JSX.Element => {
   const { isLoading, makeRequest } = useApi<Record, RecordForDeletion>()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -56,16 +59,22 @@ const RecordCard = ({ record, redirectOnRemoval }: RecordCardProps): JSX.Element
           {record.name}
         </Heading>
 
-        <Heading size='xs' pt='2'>
-          Categoria: {record.category_id}
-        </Heading>
+        {
+          category !== undefined &&
+          <Link
+            href={`/categories/${record.category_id}`}
+            fontSize='xs'
+          >
+            {category.name}
+          </Link>
+        }
       </CardHeader>
 
       <CardBody>
         <Text
           fontSize='sm'
           variant='overflowEllipsis'
-          sx={{ '--n-lines': '3' }}
+          sx={{ '--n-lines': '2' }}
         >
           {record.description}
         </Text>
