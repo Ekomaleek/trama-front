@@ -9,6 +9,7 @@ import { getCategoriesByRecords } from 'api/category'
 import { getErrorMessage } from 'helpers'
 
 import NextLink from 'next/link'
+import Link from 'components/_core/Link'
 import RecordCard from 'components/Card/Record'
 import {
   Container,
@@ -62,7 +63,8 @@ const RecordsPage: NextPage<RecordsPageProps> = ({ records, categories, error })
           records.length === 0 &&
           error === undefined &&
           <Text textAlign='center' fontSize='xl' fontWeight='500'>
-            Você ainda não tem nenhum registro cadastrado.
+            Você não tem nenhum registro cadastrado. <br />
+            Caso ainda não tenha categorias, <Link href='/categories/create'>comece criando uma</Link>.
           </Text>
         }
 
