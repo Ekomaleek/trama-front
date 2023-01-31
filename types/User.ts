@@ -7,7 +7,9 @@ type User = UserFromSchema
 
 type UserForLogin = Pick<User, 'username' | 'password'>
 
-type UserForSignup = Omit<User, 'id'>
+type UserForSignup = Omit<User, 'id'> & {
+  confirmPassword: UserForSignup['password']
+}
 
 type UserForSignupConfirmation = Pick<User, 'username'> & { code: string }
 

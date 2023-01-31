@@ -19,6 +19,11 @@ const userSchema = object({
 const userForLoginSchema = userSchema.pick(['username', 'password'])
 
 const userForSignupSchema = userSchema.omit(['id'])
+  .concat(object({
+    confirmPassword: string()
+      .required('A confirmação de senha é obrigatória.')
+      .oneOf([ref('password')], 'As senhas devem ser iguais.'),
+  }))
 
 const CODE_LENGTH = 6
 const confirmationCodeSchema = object({

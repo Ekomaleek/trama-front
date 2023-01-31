@@ -94,6 +94,20 @@ const SignupPage: NextPage = () => {
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
 
+          <FormControl
+            isRequired
+            isInvalid={errors.confirmPassword !== undefined}
+            pt='4'
+          >
+            <FormLabel>Confirme sua senha</FormLabel>
+            <Input
+              type='password'
+              placeholder='Confirme sua senha'
+              {...register('confirmPassword')}
+            />
+            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+          </FormControl>
+
           <Button
             type='submit'
             w='100%'
