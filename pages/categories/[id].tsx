@@ -76,7 +76,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
         {
           records.length === 0 &&
           <Text textAlign='center' fontSize='xl' fontWeight='500'>
-            Você ainda não tem nenhum registro cadastrado.
+            Você ainda não tem nenhum registro cadastrado nesta categoria.
           </Text>
         }
 

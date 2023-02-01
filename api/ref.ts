@@ -1,7 +1,5 @@
 import { customAxios as axios, NextRequest } from './'
 
-import { getErrorMessage } from 'helpers'
-
 import {
   Ref,
   RefForCreation,
@@ -13,71 +11,51 @@ import {
 const getRefById = async (data: RefId, req: NextRequest): Promise<Ref> => {
   const { id } = data
 
-  try {
-    const response = await axios.get(
-      `/ref/${id}`,
-      { headers: { Cookie: req?.headers.cookie } }
-    )
-    return response.data
-  } catch (err) {
-    throw new Error(`Erro ao buscar a referência: ${getErrorMessage(err)}`)
-  }
+  const response = await axios.get(
+    `/ref/${id}`,
+    { headers: { Cookie: req?.headers.cookie } }
+  )
+  return response.data
 }
 
 const getRefs = async (req?: NextRequest): Promise<Ref[]> => {
-  try {
-    const response = await axios.get(
-      '/ref',
-      { headers: { Cookie: req?.headers.cookie } }
-    )
-    return response.data
-  } catch (err) {
-    throw new Error(`Erro ao buscar referências: ${getErrorMessage(err)}`)
-  }
+  const response = await axios.get(
+    '/ref',
+    { headers: { Cookie: req?.headers.cookie } }
+  )
+  return response.data
 }
 
 const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> => {
   const { record_id, content } = data
 
-  try {
-    const response = await axios.post(
-      '/ref/create',
-      { record_id, content },
-      { headers: { Cookie: req?.headers.cookie } }
-    )
-    return response.data
-  } catch (err) {
-    throw new Error(`Erro ao criar a referência: ${getErrorMessage(err)}`)
-  }
+  const response = await axios.post(
+    '/ref/create',
+    { record_id, content },
+    { headers: { Cookie: req?.headers.cookie } }
+  )
+  return response.data
 }
 
 const updateRef = async (data: RefForUpdate, req?: NextRequest): Promise<Ref> => {
   const { id, content, record_id } = data
 
-  try {
-    const response = await axios.patch(
-      `/ref/update/${id}`,
-      { content, record_id },
-      { headers: { Cookie: req?.headers.cookie } }
-    )
-    return response.data
-  } catch (err) {
-    throw new Error(`Erro ao atualizar a referência: ${getErrorMessage(err)}`)
-  }
+  const response = await axios.patch(
+    `/ref/update/${id}`,
+    { content, record_id },
+    { headers: { Cookie: req?.headers.cookie } }
+  )
+  return response.data
 }
 
 const removeRef = async (data: RefForDeletion, req?: NextRequest): Promise<Ref> => {
   const { id } = data
 
-  try {
-    const response = await axios.delete(
-      `/ref/remove/${id}`,
-      { headers: { Cookie: req?.headers.cookie } }
-    )
-    return response.data
-  } catch (err) {
-    throw new Error(`Erro ao remover a referência: ${getErrorMessage(err)}`)
-  }
+  const response = await axios.delete(
+    `/ref/remove/${id}`,
+    { headers: { Cookie: req?.headers.cookie } }
+  )
+  return response.data
 }
 
 export {

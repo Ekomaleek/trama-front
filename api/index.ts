@@ -8,6 +8,13 @@ const customAxios = axios.create({
   withCredentials: true,
 })
 
+customAxios.interceptors.response.use(
+  response => response,
+  error => {
+    throw new Error(error.response.data.error)
+  }
+)
+
 type NextRequest = GetServerSidePropsContext['req']
 
 export { customAxios }
