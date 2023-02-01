@@ -35,7 +35,7 @@ const LoginPage: NextPage = () => {
   }
 
   const loginErrorCallback = (error: unknown, userData: UserForLogin): void => {
-    getErrorMessage(error) === 'User is not confirmed.' &&
+    getErrorMessage(error) === 'Usuário não confirmado.' &&
     router.push(`
       /signup/account-confirmation?username=${userData.username}
     `)
