@@ -6,7 +6,9 @@ import { UserForLogin, UserFromLogin } from 'types/User'
 
 import { useApi } from 'hooks/use-api'
 import { useUser } from 'context/user'
+import { useRouter } from 'next/router'
 import { loginUser } from 'api/auth'
+import { getErrorMessage } from 'helpers'
 
 import Link from 'components/_core/Link'
 import {
@@ -25,10 +27,18 @@ const LoginPage: NextPage = () => {
   const { isLoading, makeRequest } = useApi<UserFromLogin, UserForLogin>()
   const { register, handleSubmit, formState: { errors } } = useForm<UserForLogin>()
   const { setUser } = useUser()
+  const router = useRouter()
 
-  const loginSucessCallback = (response: UserFromLogin): void => {
+  const loginSuccessCallback = (response: UserFromLogin): void => {
     const { id, username, email } = response
     setUser({ id, username, email })
+  }
+
+  const loginErrorCallback = (error: unknown, userData: UserForLogin): void => {
+    getErrorMessage(error) === 'User is not confirmed.' &&
+    router.push(`
+      /signup/account-confirmation?username=${userData.username}
+    `)
   }
 
   const onSubmit: SubmitHandler<UserForLogin> = async (data) => {
@@ -37,7 +47,8 @@ const LoginPage: NextPage = () => {
       apiMethodArgs: data,
       successMessage: `Usuário ${data.username} logado com sucesso.`,
       withRedirect: '/',
-      successCallback: loginSucessCallback,
+      successCallback: loginSuccessCallback,
+      errorCallback: error => loginErrorCallback(error, data),
     })
   }
 
