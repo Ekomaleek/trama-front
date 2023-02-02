@@ -9,6 +9,8 @@ import React, {
 
 import { User, UserFromGetUser } from 'types/User'
 
+import { useApi } from 'hooks/use-api'
+
 type UserContextType = {
   user: Omit<User, 'password'> | null
   setUser: React.Dispatch<React.SetStateAction<UserFromGetUser>>
@@ -25,14 +27,26 @@ const UserContext = createContext<UserContextType>({
 
 const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserFromGetUser>(null)
+  const { makeRequest } = useApi<UserFromGetUser, {}>()
+
+  const getUserSuccessCallback = (data: UserFromGetUser): void => {
+    setUser(data)
+  }
 
   const getUser = async (): Promise<void> => {
-    const response = await getCurrentUser()
-    setUser(response)
+    await makeRequest({
+      apiMethod: getCurrentUser,
+      apiMethodArgs: {},
+      successCallback: getUserSuccessCallback,
+    })
   }
 
   useEffect(() => {
     void getUser()
+    // Disabling this rule because it is necessary
+    // that the function gets executed only on mount.
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

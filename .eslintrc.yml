@@ -13,7 +13,7 @@ parserOptions:
 plugins:
   - react
 rules: {
-  indent: ['error', 2],
+  indent: ['error', 2, { SwitchCase: 1 }],
   comma-dangle: ['error', {
     'objects': 'always-multiline',
     'arrays': 'always-multiline',
