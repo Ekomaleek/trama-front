@@ -11,7 +11,17 @@ const customAxios = axios.create({
 customAxios.interceptors.response.use(
   response => response,
   error => {
-    throw new Error(error.response.data.error)
+    switch (error.code) {
+      case 'ERR_NETWORK':
+      case 'ETIMEDOUT':
+        throw new Error(`
+          Nosso sistema parece estar indisponível no momento.
+          Por favor, tente novamente mais tarde.
+        `)
+
+      default:
+        throw new Error(error.response.data.error)
+    }
   }
 )
 
