@@ -11,7 +11,7 @@ type UseApi<Resource, Data> = {
   makeRequest: (options: {
     apiMethod: (data: Data) => Promise<Resource>
     apiMethodArgs: Data
-    successMessage: string
+    successMessage?: string
     withRedirect?: string | 'back'
     successCallback?: (response: Resource) => any
     errorCallback?: (error: any) => any
@@ -49,6 +49,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
       }
       successCallback?.(response)
 
+      successMessage !== undefined &&
       toast({
         title: 'Tudo certo!',
         description: successMessage,
