@@ -37,6 +37,7 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     await makeRequest({
       apiMethod: getCurrentUser,
       apiMethodArgs: {},
+      withToast: false,
       successCallback: getUserSuccessCallback,
     })
   }
