@@ -13,6 +13,7 @@ type UseApi<Resource, Data> = {
     apiMethodArgs: Data
     successMessage?: string
     withRedirect?: string | 'back'
+    withToast?: boolean
     successCallback?: (response: Resource) => any
     errorCallback?: (error: any) => any
     finallyCallback?: () => any
@@ -32,6 +33,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
     apiMethodArgs,
     successMessage,
     withRedirect,
+    withToast = true,
     successCallback,
     errorCallback,
     finallyCallback,
@@ -49,7 +51,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
       }
       successCallback?.(response)
 
-      successMessage !== undefined &&
+      withToast &&
       toast({
         title: 'Tudo certo!',
         description: successMessage,
@@ -60,6 +62,7 @@ const useApi = <Resource, Data>(): UseApi<Resource, Data> => {
       setError(getErrorMessage(err))
       errorCallback?.(err)
 
+      withToast &&
       toast({
         title: 'Ops! Algo deu errado.',
         description: getErrorMessage(err),
