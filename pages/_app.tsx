@@ -2,6 +2,8 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { Roboto_Slab, Fira_Sans } from '@next/font/google'
 
 import type { AppProps } from 'next/app'
+import 'react-quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.bubble.css'
 
 import theme from 'theme'
 import { UserProvider } from 'context/user'

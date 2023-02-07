@@ -1,6 +1,7 @@
 // https://chakra-ui.com/docs/styled-system/theme
 
 import { robotoSlab, firaSans } from 'pages/_app'
+import { reactQuillCssClasses } from 'helpers/react-quill-css-classes'
 
 import components from './components'
 
@@ -56,6 +57,51 @@ const styles = {
       background: 'black !important',
       fontFamily: robotoSlab.style.fontFamily,
     },
+    // React Quill Reset Start
+    [reactQuillCssClasses.editorContainer]: {
+      fontSize: '1rem',
+    },
+    [reactQuillCssClasses.editorContent]: {
+      fontFamily: robotoSlab.style.fontFamily,
+    },
+    [reactQuillCssClasses.toolbarButtonsColor]: {
+      color: 'orange.500',
+    },
+    [reactQuillCssClasses.toolbarButtonsFill]: {
+      fill: 'orange.500',
+    },
+    [reactQuillCssClasses.toolbarButtonsStroke]: {
+      stroke: 'orange.500',
+    },
+    [reactQuillCssClasses.toolbarMenus]: {
+      backgroundColor: 'black',
+      color: 'white',
+      zIndex: 'sticky',
+      boxShadow: 'none',
+    },
+    [reactQuillCssClasses.links]: {
+      color: 'orange.500',
+    },
+    [reactQuillCssClasses.toolbarMenusInputs]: {
+      backgroundColor: 'black',
+    },
+    [reactQuillCssClasses.insertLinkText]: {
+      content: '"Insira o link: "',
+    },
+    [reactQuillCssClasses.saveActionText]: {
+      content: '"Salvar"',
+    },
+    [reactQuillCssClasses.inputPlaceholder]: {
+      color: 'gray.500',
+      fontStyle: 'unset',
+    },
+    [reactQuillCssClasses.svgIconsStroke]: {
+      stroke: 'white',
+    },
+    [reactQuillCssClasses.svgIconsFill]: {
+      fill: 'white',
+    },
+    // React Quill Reset End
   },
 }
 
