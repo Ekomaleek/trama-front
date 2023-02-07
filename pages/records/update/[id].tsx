@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
 
 import { GetServerSideProps, NextPage } from 'next'
+import { ReactQuillProps } from 'react-quill'
 import { Category } from 'types/Category'
 import { Ref } from 'types/Ref'
 import {
@@ -18,6 +19,7 @@ import { getRecordById, getRefsByRecordId, updateRecordWithRefs } from 'api/reco
 import { recordForUserUpdateWithRefsSchema } from 'helpers/input-validation/schemas/record'
 
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import TextEditor from 'components/TextEditor'
 import {
   Container,
   Heading,
@@ -29,7 +31,6 @@ import {
   Select,
   Box,
   IconButton,
-  Textarea,
 } from '@chakra-ui/react'
 
 type UpdateRecordPageProps = {
@@ -44,6 +45,8 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
     register,
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<RecordForUserUpdateWithRefs>({
     resolver: yupResolver(recordForUserUpdateWithRefsSchema),
@@ -75,6 +78,15 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
       withRedirect: 'back',
     })
   }
+
+  const handleDescriptionChange: ReactQuillProps['onChange'] = (value): void => {
+    setValue('description', value)
+  }
+
+  useEffect(() => {
+    register('description')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -163,11 +175,12 @@ const UpdateRecordPage: NextPage<UpdateRecordPageProps> = ({ categories, record,
             <FormErrorMessage>Preencha referência(s) ou remova-a(s).</FormErrorMessage>
           </FormControl>
 
-          <FormControl pt='4'>
+          <FormControl pt='8'>
             <FormLabel>Descrição</FormLabel>
-            <Textarea
-              placeholder='Descrição do registro'
-              {...register('description')}
+            <TextEditor
+              value={watch('description') ?? ''}
+              onChange={handleDescriptionChange}
+              placeholder='Seu texto aqui'
             />
           </FormControl>
 
