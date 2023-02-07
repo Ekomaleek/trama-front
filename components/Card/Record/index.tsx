@@ -4,6 +4,7 @@ import NextLink from 'next/link'
 import { Record, RecordForDeletion } from 'types/Record'
 import { Category } from 'types/Category'
 
+import { stripHtmlTags } from 'helpers'
 import { useApi } from 'hooks/use-api'
 import { removeRecord } from 'api/record'
 
@@ -76,7 +77,7 @@ const RecordCard = ({ record, category, redirectOnRemoval }: RecordCardProps): J
           variant='overflowEllipsis'
           sx={{ '--n-lines': '2' }}
         >
-          {record.description}
+          {stripHtmlTags(record.description ?? '')}
         </Text>
       </CardBody>
 

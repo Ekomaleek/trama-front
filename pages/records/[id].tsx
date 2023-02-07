@@ -13,6 +13,7 @@ import { useApi } from 'hooks/use-api'
 import NextLink from 'next/link'
 import Link from 'components/_core/Link'
 import Dialog from 'components/Dialog'
+import TextEditor from 'components/TextEditor'
 import {
   Container,
   Heading,
@@ -61,7 +62,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
           </Link>
         </Heading>
 
-        <Box pt='8'>
+        <Box py='8'>
           {refs.map(ref =>
             <Text
               key={ref.id}
@@ -74,9 +75,12 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
           )}
         </Box>
 
-        <Text pt='8'>
-          {record.description}
-        </Text>
+        <TextEditor
+          theme='bubble'
+          value={record.description ?? ''}
+          readOnly={true}
+          fullscreenEnabled={false}
+        />
 
         <Flex
           pt='8'

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form'
 
+import { ReactQuillProps } from 'react-quill'
 import { Category } from 'types/Category'
 import { NextPage, GetServerSideProps } from 'next'
 import { Record, RecordForCreationWithRefs } from 'types/Record'
@@ -13,6 +14,7 @@ import { createRecordWithRefs } from 'api/record'
 import { recordForCreationWithRefsSchema } from 'helpers/input-validation/schemas/record'
 
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import TextEditor from 'components/TextEditor'
 import {
   Container,
   Heading,
@@ -24,7 +26,6 @@ import {
   Button,
   Box,
   IconButton,
-  Textarea,
 } from '@chakra-ui/react'
 
 type CreateRecordPageProps = {
@@ -38,6 +39,8 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
     register,
     control,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<RecordForCreationWithRefs>({
     resolver: yupResolver(recordForCreationWithRefsSchema),
@@ -60,6 +63,15 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
       withRedirect: 'back',
     })
   }
+
+  const handleDescriptionChange: ReactQuillProps['onChange'] = (value): void => {
+    setValue('description', value)
+  }
+
+  useEffect(() => {
+    register('description')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -147,11 +159,12 @@ const CreateRecordPage: NextPage<CreateRecordPageProps> = ({ category_id, catego
             <FormErrorMessage>Preencha referência(s) ou remova-a(s).</FormErrorMessage>
           </FormControl>
 
-          <FormControl pt='4'>
+          <FormControl pt='8'>
             <FormLabel>Descrição</FormLabel>
-            <Textarea
-              placeholder='Descrição do registro'
-              {...register('description')}
+            <TextEditor
+              value={watch('description') ?? ''}
+              onChange={handleDescriptionChange}
+              placeholder='Seu texto aqui'
             />
           </FormControl>
 

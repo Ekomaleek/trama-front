@@ -6,4 +6,7 @@ const getErrorMessage = (err: unknown): string => {
   return errorMessage
 }
 
-export { getErrorMessage }
+const stripHtmlTags = (string: string): string =>
+  string.replaceAll(/(<([^>]+)>)/gi, '')
+
+export { getErrorMessage, stripHtmlTags }
