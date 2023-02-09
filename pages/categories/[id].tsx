@@ -102,6 +102,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
           headerText='Remover registro'
           bodyText={`Tem certeza que deseja remover a categoria ${category.name}?`}
           actionBtnText='Remover'
+          cancelBtnText='Cancelar'
         />
       </Container>
     </>

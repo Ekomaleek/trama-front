@@ -102,6 +102,7 @@ const CategoryCard = ({ category, redirectOnRemoval }: CategoryCardProps): JSX.E
         headerText='Remover categoria'
         bodyText={`Tem certeza que deseja remover a categoria ${category.name}?`}
         actionBtnText='Remover'
+        cancelBtnText='Cancelar'
       />
     </Card>
   )
