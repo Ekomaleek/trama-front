@@ -116,6 +116,7 @@ const RecordCard = ({ record, category, redirectOnRemoval }: RecordCardProps): J
         headerText='Remover registro'
         bodyText={`Tem certeza que deseja remover o registro ${record.name}?`}
         actionBtnText='Remover'
+        cancelBtnText='Cancelar'
       />
     </Card>
   )

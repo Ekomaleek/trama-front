@@ -20,6 +20,7 @@ type DialogProps = {
   headerText: string
   bodyText: string
   actionBtnText: string
+  cancelBtnText: string
 }
 
 const Dialog = (props: DialogProps): JSX.Element => {
@@ -33,6 +34,7 @@ const Dialog = (props: DialogProps): JSX.Element => {
     headerText,
     bodyText,
     actionBtnText,
+    cancelBtnText,
   } = props
 
   return (
@@ -67,7 +69,7 @@ const Dialog = (props: DialogProps): JSX.Element => {
               ref={cancelRef}
               onClick={onClose}
             >
-              Cancelar
+              {cancelBtnText}
             </Button>
             <Button
               colorScheme='red'

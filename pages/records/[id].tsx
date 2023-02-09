@@ -104,6 +104,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record, refs, category }) => {
           headerText='Remover registro'
           bodyText={`Tem certeza que deseja remover o registro ${record.name}?`}
           actionBtnText='Remover'
+          cancelBtnText='Cancelar'
         />
       </Container>
     </>
