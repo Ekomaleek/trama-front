@@ -18,7 +18,8 @@ const BreadcrumbComponent = (): JSX.Element => {
   const allBreadcrumbItems = getBreadcrumbItems(router)
 
   const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
-  // if in mobile device, only renders last page visited
+
+  // In a mobile device, only renders the last visited page.
   const breadcrumbItems = isDesktop
     ? allBreadcrumbItems
     : [allBreadcrumbItems[allBreadcrumbItems.length - 2]]
@@ -50,7 +51,10 @@ const BreadcrumbComponent = (): JSX.Element => {
             fontSize='sm'
           >
             {breadcrumbItems.map(item =>
-              <BreadcrumbItem key={item.id}>
+              <BreadcrumbItem
+                key={item.id}
+                alignItems='baseline'
+              >
                 <BreadcrumbLink
                   as={NavbarLink}
                   href={item.url}

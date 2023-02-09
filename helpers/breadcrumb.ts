@@ -21,6 +21,10 @@ const breadcrumbDictionary: BreadcrumbDictionary = {
   '/records/id': 'Visualizar registro',
   '/records/create': 'Criar registro',
   '/records/update/id': 'Editar registro',
+  '/profile': 'Visualizar perfil',
+  '/login': 'Login',
+  '/signup': 'Cadastro',
+  '/forgot-password': 'Recuperação de senha',
 }
 
 const resolveItemName = (url: string): string => {
@@ -37,8 +41,8 @@ const resolveItemName = (url: string): string => {
 const resolveItemUrl = (pathItems: string[], index: number): string => {
   if (index === 0) return '/'
 
-  // Checks whether the next pathItem is a number (an id) and the current is an action
-  // If so, skip this item
+  // Checks whether the next pathItem is a number (an id) and the current
+  // is an action. If so, skip this item.
   const nextItem = pathItems[index + 1]
   if (
     !isNaN(parseInt(nextItem)) &&
@@ -49,6 +53,9 @@ const resolveItemUrl = (pathItems: string[], index: number): string => {
   return currentItems.join('/')
 }
 
+// Splits the pathname by '/', generating an array like:
+// ['', 'records', 'update', '13']
+// For each entry in this array, resolves its appropriate name and url.
 const getBreadcrumbItems = (router: NextRouter): BreadcrumbItem[] => {
   if (router.pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
 
