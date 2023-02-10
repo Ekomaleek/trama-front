@@ -1,5 +1,3 @@
-import { NextRouter } from 'next/router'
-
 type BreadcrumbItem = {
   id: number
   name: string
@@ -53,15 +51,26 @@ const resolveItemUrl = (pathItems: string[], index: number): string => {
   return currentItems.join('/')
 }
 
-// Splits the pathname by '/', generating an array like:
-// ['', 'records', 'update', '13']
-// For each entry in this array, resolves its appropriate name and url.
-const getBreadcrumbItems = (router: NextRouter): BreadcrumbItem[] => {
-  if (router.pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
+// Both pathname and pathnameFromBrowser are necessary because if only
+// pathnameFromBrowser is used, server and client renders are different
+// and that results in a hydration error. If only pathname is used,
+// we dont have access to url params and therefore cannot correctly map
+// urls that contain ids, for example.
+// https://nextjs.org/docs/api-reference/next/router#router-object
+type GetBreadcrumbItemsArgs = {
+  pathname: string
+  pathnameFromBrowser: string
+}
+const getBreadcrumbItems = ({
+  pathname,
+  pathnameFromBrowser,
+}: GetBreadcrumbItemsArgs): BreadcrumbItem[] => {
+  if (pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
 
-  const pathItems = router.asPath === '/'
+  // Generates an array like ['', 'records', 'update', '13']
+  const pathItems = pathnameFromBrowser === '/'
     ? ['']
-    : router.asPath.split('/')
+    : pathnameFromBrowser.split('/')
 
   const breadcrumbItems = pathItems.map((_, index) => {
     const url = resolveItemUrl(pathItems, index)
