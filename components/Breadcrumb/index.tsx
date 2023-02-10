@@ -15,7 +15,10 @@ import {
 
 const BreadcrumbComponent = (): JSX.Element => {
   const router = useRouter()
-  const allBreadcrumbItems = getBreadcrumbItems(router)
+  const allBreadcrumbItems = getBreadcrumbItems({
+    pathname: router.pathname,
+    pathnameFromBrowser: router.asPath,
+  })
 
   const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
 
