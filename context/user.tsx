@@ -29,16 +29,12 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserFromGetUser>(null)
   const { makeRequest } = useApi<UserFromGetUser, {}>()
 
-  const getUserSuccessCallback = (data: UserFromGetUser): void => {
-    setUser(data)
-  }
-
   const getUser = async (): Promise<void> => {
     await makeRequest({
       apiMethod: getCurrentUser,
       apiMethodArgs: {},
       withToast: false,
-      successCallback: getUserSuccessCallback,
+      successCallback: setUser,
     })
   }
 
