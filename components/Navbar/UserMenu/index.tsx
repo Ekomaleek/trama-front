@@ -1,5 +1,3 @@
-import { UserFromGetUser } from 'types/User'
-
 import { useApi } from 'hooks/use-api'
 import { useUser } from 'context/user'
 import { logoutUser } from 'api/auth'
@@ -14,11 +12,7 @@ import {
   MenuItem,
 } from '@chakra-ui/react'
 
-type UserMenuProps = {
-  user: UserFromGetUser
-}
-
-const UserMenu = ({ user }: UserMenuProps): JSX.Element => {
+const UserMenu = (): JSX.Element => {
   const { makeRequest } = useApi()
   const { setUser } = useUser()
 
@@ -39,7 +33,6 @@ const UserMenu = ({ user }: UserMenuProps): JSX.Element => {
         as={IconButton}
         icon={<AtSignIcon />}
         size='sm'
-        display={user === null ? 'none' : 'block'}
       />
       <MenuList>
         <NextLink href='/profile'>

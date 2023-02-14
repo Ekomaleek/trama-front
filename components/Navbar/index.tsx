@@ -64,7 +64,7 @@ const Navbar = (): JSX.Element => {
               />
             </NavbarLink>
 
-            <UserMenu user={user} />
+            {user !== null && <UserMenu />}
           </Flex>
 
           <Flex
@@ -120,7 +120,7 @@ const Navbar = (): JSX.Element => {
             )}
           </Box>
 
-          <UserMenu user={user} />
+          {user !== null && <UserMenu />}
         </Flex>
       }
     </Flex>
