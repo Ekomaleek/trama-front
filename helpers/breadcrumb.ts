@@ -25,13 +25,13 @@ const breadcrumbDictionary: BreadcrumbDictionary = {
   '/forgot-password': 'Recuperação de senha',
 }
 
-const resolveItemName = (url: string): string => {
+const resolveItemName = (url: string): string | null => {
   const urlGenericId = url.replace(/(\d+)/g, 'id')
   const keyOnDict = Object.keys(breadcrumbDictionary).find(dictEntry => dictEntry === urlGenericId)
 
   const name = keyOnDict !== undefined
     ? breadcrumbDictionary[keyOnDict]
-    : 'Não encontrado'
+    : null
 
   return name
 }
@@ -65,25 +65,29 @@ const getBreadcrumbItems = ({
   pathname,
   pathnameFromBrowser,
 }: GetBreadcrumbItemsArgs): BreadcrumbItem[] => {
-  if (pathname === '/404') return [{ id: 0, name: '404', url: '/404' }]
+  let id = 0
+
+  if (pathname === '/404') return [{ id: id++, name: '404', url: '/404' }]
 
   // Generates an array like ['', 'records', 'update', '13']
   const pathItems = pathnameFromBrowser === '/'
     ? ['']
     : pathnameFromBrowser.split('/')
 
-  const breadcrumbItems = pathItems.map((_, index) => {
+  const breadcrumbItems: BreadcrumbItem[] = []
+  pathItems.forEach((_, index) => {
     const url = resolveItemUrl(pathItems, index)
     const name = resolveItemName(url)
 
-    return {
-      id: index,
+    name !== null &&
+    breadcrumbItems.push({
+      id: id++,
       name,
       url,
-    }
+    })
   })
 
-  return breadcrumbItems.filter(item => item.name !== 'Não encontrado')
+  return breadcrumbItems
 }
 
 export { getBreadcrumbItems }
