@@ -1,6 +1,6 @@
 import { getBreadcrumbItems } from 'helpers/breadcrumb'
 
-describe('jansen', () => {
+describe('Breadcrumb component test', () => {
   test('Should render correct BreadcrumbItems for given url', () => {
     let breadcrumbItems
 
@@ -52,9 +52,22 @@ describe('jansen', () => {
         url: '/records',
       },
       {
-        id: 3,
+        id: 2,
         name: 'Editar registro',
         url: '/records/update/11',
+      },
+    ])
+
+    // 404
+    breadcrumbItems = getBreadcrumbItems({
+      pathname: '/404',
+      pathnameFromBrowser: '/404',
+    })
+    expect(breadcrumbItems).toEqual([
+      {
+        id: 0,
+        name: '404',
+        url: '/404',
       },
     ])
   })
