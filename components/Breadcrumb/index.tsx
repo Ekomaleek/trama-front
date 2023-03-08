@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 
 import { getBreadcrumbItems } from 'helpers/breadcrumb'
-import { breakpoints } from 'theme'
 
 import NavbarLink from 'components/_core/NavbarLink'
 import {
@@ -11,16 +10,20 @@ import {
   BreadcrumbLink,
   Text,
   useMediaQuery,
+  useTheme,
 } from '@chakra-ui/react'
 
 const BreadcrumbComponent = (): JSX.Element => {
+  const theme = useTheme()
+  const mdBreakpoint = theme.breakpoints.md as string
+
   const router = useRouter()
   const allBreadcrumbItems = getBreadcrumbItems({
     pathname: router.pathname,
     pathnameFromBrowser: router.asPath,
   })
 
-  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
+  const [isDesktop] = useMediaQuery(`(min-width: ${mdBreakpoint})`)
 
   // In a mobile device, only renders the last visited page.
   const breadcrumbItems = isDesktop
