@@ -2,22 +2,25 @@ import { useState } from 'react'
 
 import { useUser } from 'context/user'
 import navLinks from 'helpers/nav-links'
-import { breakpoints } from 'theme'
 
 import LogoIcon from 'components/LogoIcon'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import NavbarLink from 'components/_core/NavbarLink'
+import UserMenu from './UserMenu'
 import {
   useMediaQuery,
   Flex,
   IconButton,
   Box,
+  useTheme,
 } from '@chakra-ui/react'
-import NavbarLink from 'components/_core/NavbarLink'
-import UserMenu from './UserMenu'
 
 const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [isDesktop] = useMediaQuery(`(min-width: ${breakpoints.md})`)
+
+  const theme = useTheme()
+  const mdBreakpoint = theme.breakpoints.md as string
+  const [isDesktop] = useMediaQuery(`(min-width: ${mdBreakpoint})`)
 
   const toggleMenu = (): void => {
     setIsOpen(isOpen => !isOpen)
