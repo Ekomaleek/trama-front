@@ -55,4 +55,4 @@ const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
 
 const useUser = (): UserContextType => useContext(UserContext)
 
-export { UserProvider, useUser }
+export { UserProvider, UserContext, useUser }

@@ -14,15 +14,14 @@ import {
 } from '@chakra-ui/react'
 
 const BreadcrumbComponent = (): JSX.Element => {
-  const theme = useTheme()
-  const mdBreakpoint = theme.breakpoints.md as string
-
   const router = useRouter()
   const allBreadcrumbItems = getBreadcrumbItems({
     pathname: router.pathname,
     pathnameFromBrowser: router.asPath,
   })
 
+  const theme = useTheme()
+  const mdBreakpoint = theme.breakpoints.md as string
   const [isDesktop] = useMediaQuery(`(min-width: ${mdBreakpoint})`)
 
   // In a mobile device, only renders the last visited page.
