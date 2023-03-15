@@ -68,7 +68,7 @@ const CategoryCard = ({ category, redirectOnRemoval }: CategoryCardProps): JSX.E
       </CardBody>
 
       <CardFooter justifyContent='space-between'>
-        <NextLink href={`categories/${category.id}`}>
+        <NextLink href={`/categories/${category.id}`}>
           <Button>
             Ver categoria
           </Button>
@@ -82,7 +82,7 @@ const CategoryCard = ({ category, redirectOnRemoval }: CategoryCardProps): JSX.E
           />
 
           <MenuList>
-            <NextLink href={`categories/update/${category.id}`}>
+            <NextLink href={`/categories/update/${category.id}`}>
               <MenuItem icon={<EditIcon />}>
                 Editar
               </MenuItem>
