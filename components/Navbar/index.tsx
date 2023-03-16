@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { useUser } from 'context/user'
 import navLinks from 'helpers/nav-links'
@@ -31,19 +31,41 @@ const Navbar = (): JSX.Element => {
     ? [...navLinks.allUsers, ...navLinks.notLoggedInUsers]
     : [...navLinks.allUsers, ...navLinks.loggedInUsers]
 
+  // Hide navbar on scroll down
+  const [previousScroll, setPreviousScroll] = useState<number>(0)
+  const [shouldHide, setShouldHide] = useState<boolean>(false)
+
+  useEffect(() => {
+    const scrollListenerHandler = (): void => {
+      setPreviousScroll(window.scrollY)
+
+      window.scrollY > previousScroll
+        ? setShouldHide(true)
+        : setShouldHide(false)
+    }
+
+    window.addEventListener('scroll', scrollListenerHandler)
+    return () => window.removeEventListener('scroll', scrollListenerHandler)
+  }, [previousScroll])
+
   return (
     <Flex
       as='header'
       pos='fixed'
       alignItems='center'
       justifyContent='space-between'
-      h='navbarHeight'
-      w='100%'
-      p='8'
+      height='navbarHeight'
+      width='100%'
+      padding='8'
       bg='blackAlpha.900'
       borderBottom='1px solid'
       borderColor='orange.500'
       zIndex='sticky'
+      left='0'
+      opacity={shouldHide ? 0 : 1}
+      visibility={shouldHide ? 'hidden' : 'visible'}
+      transitionProperty='opacity visibility'
+      transitionDuration='slow'
     >
       {!isDesktop &&
         <>
