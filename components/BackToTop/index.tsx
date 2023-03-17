@@ -32,7 +32,8 @@ const BackToTop = (): JSX.Element => {
       right='4'
       borderRadius='50%'
       opacity={hasScrolled ? 1 : 0}
-      transitionProperty='opacity'
+      visibility={hasScrolled ? 'visible' : 'hidden'}
+      transitionProperty='opacity visibility'
       transitionDuration='normal'
     />
   )
