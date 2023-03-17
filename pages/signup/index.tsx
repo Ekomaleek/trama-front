@@ -49,7 +49,7 @@ const SignupPage: NextPage = () => {
         </Heading>
 
         <Text textAlign='center' pt='4' pb='8'>
-          Cria sua conta ou <Link href='/login'>conecte-se com uma já existente</Link>.
+          Crie sua conta ou <Link href='/login'>conecte-se com uma já existente</Link>.
         </Text>
 
         <form onSubmit={handleSubmit(onSubmit)}>
