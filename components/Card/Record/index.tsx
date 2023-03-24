@@ -4,7 +4,7 @@ import NextLink from 'next/link'
 import { Record, RecordForDeletion } from 'types/Record'
 import { Category } from 'types/Category'
 
-import { stripHtmlTags } from 'helpers'
+import { stripHtmlTags } from 'helpers/utils'
 import { useApi } from 'hooks/use-api'
 import { removeRecord } from 'api/record'
 

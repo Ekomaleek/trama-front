@@ -6,7 +6,7 @@ import { Category } from 'types/Category'
 
 import { getRecords } from 'api/record'
 import { getCategoriesByRecords } from 'api/category'
-import { getErrorMessage } from 'helpers'
+import { getErrorMessage } from 'helpers/utils'
 
 import NextLink from 'next/link'
 import Link from 'components/_core/Link'

@@ -8,7 +8,7 @@ import { useApi } from 'hooks/use-api'
 import { useUser } from 'context/user'
 import { useRouter } from 'next/router'
 import { loginUser } from 'api/auth'
-import { getErrorMessage } from 'helpers'
+import { getErrorMessage } from 'helpers/utils'
 
 import Link from 'components/_core/Link'
 import {
