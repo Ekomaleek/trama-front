@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-import { getErrorMessage } from 'helpers'
+import { getErrorMessage } from 'helpers/utils'
 
 type UseApi<Resource, Data> = {
   resource?: Resource

@@ -4,7 +4,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Category } from 'types/Category'
 
 import { getCategories } from 'api/category'
-import { getErrorMessage } from 'helpers'
+import { getErrorMessage } from 'helpers/utils'
 
 import NextLink from 'next/link'
 import CategoryCard from 'components/Card/Category'
