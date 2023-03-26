@@ -62,12 +62,17 @@ const RecordCard = ({ record, category, redirectOnRemoval }: RecordCardProps): J
 
         {
           category !== undefined &&
-          <Link
-            href={`/categories/${record.category_id}`}
-            fontSize='xs'
+          <Text
+            variant='overflowEllipsis'
+            sx={{ '--n-lines': '1' }}
           >
-            {category.name}
-          </Link>
+            <Link
+              href={`/categories/${record.category_id}`}
+              fontSize='xs'
+            >
+              {category.name}
+            </Link>
+          </Text>
         }
       </CardHeader>
 
