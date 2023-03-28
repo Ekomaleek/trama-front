@@ -56,7 +56,8 @@ const Navbar = (): JSX.Element => {
       justifyContent='space-between'
       height='navbarHeight'
       width='100%'
-      padding='8'
+      paddingY='4'
+      paddingX='8'
       bg='blackAlpha.900'
       borderBottom='1px solid'
       borderColor='orange.500'
@@ -138,7 +139,7 @@ const Navbar = (): JSX.Element => {
               >
                 {
                   navLink.url === '/'
-                    ? <LogoIcon />
+                    ? <LogoIcon maxH='100%' />
                     : navLink.name
                 }
               </NavbarLink>
