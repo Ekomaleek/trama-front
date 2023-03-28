@@ -14,7 +14,7 @@ const LogoIcon = createIcon({
   defaultProps: {
     stroke: 'white',
     strokeWidth: '6',
-    boxSize: '8',
+    boxSize: '7',
     transitionProperty: 'stroke',
     transitionDuration: 'normal',
     _hover: {
