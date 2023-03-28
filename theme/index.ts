@@ -110,7 +110,7 @@ const fonts = {
   body: robotoSlab.style.fontFamily,
 }
 
-const navbarHeight = '5rem'
+const navbarHeight = '3.5rem'
 
 const sizes = {
   navbarHeight,
