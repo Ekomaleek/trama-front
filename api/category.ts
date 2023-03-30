@@ -34,7 +34,7 @@ const createCategory = async (data: CategoryForCreation, req?: NextRequest): Pro
   const { name, description } = data
 
   const response = await axios.post(
-    '/category/create',
+    '/category',
     { name, description },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -45,7 +45,7 @@ const updateCategory = async (data: CategoryForUpdate, req?: NextRequest): Promi
   const { id, name, description } = data
 
   const response = await axios.patch(
-    `/category/update/${id}`,
+    `/category/${id}`,
     { name, description },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -56,7 +56,7 @@ const removeCategory = async (data: CategoryForDeletion, req?: NextRequest): Pro
   const { id } = data
 
   const response = await axios.delete(
-    `/category/remove/${id}`,
+    `/category/${id}`,
     { headers: { Cookie: req?.headers.cookie } }
   )
   return response.data
