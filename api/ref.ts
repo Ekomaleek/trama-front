@@ -30,7 +30,7 @@ const createRef = async (data: RefForCreation, req?: NextRequest): Promise<Ref> 
   const { record_id, content } = data
 
   const response = await axios.post(
-    '/ref/create',
+    '/ref',
     { record_id, content },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -41,7 +41,7 @@ const updateRef = async (data: RefForUpdate, req?: NextRequest): Promise<Ref> =>
   const { id, content, record_id } = data
 
   const response = await axios.patch(
-    `/ref/update/${id}`,
+    `/ref/${id}`,
     { content, record_id },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -52,7 +52,7 @@ const removeRef = async (data: RefForDeletion, req?: NextRequest): Promise<Ref> 
   const { id } = data
 
   const response = await axios.delete(
-    `/ref/remove/${id}`,
+    `/ref/${id}`,
     { headers: { Cookie: req?.headers.cookie } }
   )
   return response.data

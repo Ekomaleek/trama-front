@@ -34,7 +34,7 @@ const createRecord = async (data: RecordForCreation, req?: NextRequest): Promise
   const { name, description, category_id } = data
 
   const response = await axios.post(
-    '/record/create',
+    '/record',
     { name, description, category_id },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -50,7 +50,7 @@ const updateRecord = async (data: RecordForUpdate, req?: NextRequest): Promise<R
   } = data
 
   const response = await axios.patch(
-    `/record/update/${id}`,
+    `/record/${id}`,
     { name, description, category_id },
     { headers: { Cookie: req?.headers.cookie } }
   )
@@ -61,7 +61,7 @@ const removeRecord = async (data: RecordForDeletion, req?: NextRequest): Promise
   const { id } = data
 
   const response = await axios.delete(
-    `/record/remove/${id}`,
+    `/record/${id}`,
     { headers: { Cookie: req?.headers.cookie } }
   )
   return response.data
