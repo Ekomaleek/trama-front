@@ -99,7 +99,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ category, records }) => {
           onClose={onClose}
           isLoading={isLoading}
           callback={handleDelete}
-          headerText='Remover registro'
+          headerText='Remover categoria'
           bodyText={`Tem certeza que deseja remover a categoria ${category.name}?`}
           actionBtnText='Remover'
           cancelBtnText='Cancelar'
